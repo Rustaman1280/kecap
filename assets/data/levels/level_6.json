@@ -1,0 +1,78 @@
+{
+  "levelId": "level-6",
+  "levelLabel": "Level Benda di Rumah",
+  "sectionTitle": "BAGIAN 1, UNIT 6",
+  "lessonTitle": "Mengenal benda-benda di rumah",
+  "xpToUnlock": 35,
+  "nextObjective": "Berbicara tentang warna",
+  "streak": 0,
+  "streakGoal": 10,
+  "heartPercent": 1.0,
+  "questions": [
+    {
+      "id": "unit6-q1",
+      "categoryLabel": "KOSAKATA",
+      "prompt": "Terjemahkan kata ini:",
+      "newWord": "kursi",
+      "hint": "Tempat duduk.",
+      "answerSlots": [{ "text": "", "locked": false }],
+      "wordBank": ["chair", "table", "bed", "door"],
+      "correctAnswer": ["chair"],
+      "feedback": "Benar! 'kursi' = 'chair'."
+    },
+    {
+      "id": "unit6-q2",
+      "categoryLabel": "KOSAKATA",
+      "prompt": "Terjemahkan kata ini:",
+      "newWord": "meja",
+      "hint": "Tempat menaruh barang.",
+      "answerSlots": [{ "text": "", "locked": false }],
+      "wordBank": ["table", "chair", "door", "lamp"],
+      "correctAnswer": ["table"],
+      "feedback": "Mantap! 'meja' = 'table'."
+    },
+    {
+      "id": "unit6-q3",
+      "categoryLabel": "IDENTITAS",
+      "prompt": "Terjemahkan: 'Ini pintu.'",
+      "newWord": "door",
+      "hint": "Format: This is __",
+      "answerSlots": [
+        { "text": "This", "locked": true },
+        { "text": "is", "locked": true },
+        { "text": "", "locked": false }
+      ],
+      "wordBank": ["door", "table", "chair"],
+      "correctAnswer": ["This", "is", "door"],
+      "feedback": "Good! 'This is door.'"
+    },
+    {
+      "id": "unit6-q4",
+      "categoryLabel": "PUNYA",
+      "prompt": "Terjemahkan: 'Saya punya lampu.'",
+      "newWord": "lamp",
+      "hint": "Format: I have __",
+      "answerSlots": [
+        { "text": "I", "locked": true },
+        { "text": "", "locked": false }
+      ],
+      "wordBank": ["have a lamp", "have lamp", "have table"],
+      "correctAnswer": ["I", "have a lamp"],
+      "feedback": "Nice! 'I have a lamp.'"
+    },
+    {
+      "id": "unit6-q5",
+      "categoryLabel": "DESKRIPSI",
+      "prompt": "Terjemahkan: 'Rumah saya besar.'",
+      "newWord": "big",
+      "hint": "Format: My house is __",
+      "answerSlots": [
+        { "text": "My house", "locked": true },
+        { "text": "", "locked": false }
+      ],
+      "wordBank": ["is big", "is small", "big", "small"],
+      "correctAnswer": ["My house", "is big"],
+      "feedback": "Good! 'My house is big.'"
+    }
+  ]
+}

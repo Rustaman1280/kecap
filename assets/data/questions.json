@@ -1,0 +1,256 @@
+{
+  "courseTitle": "Bahasa Inggris Dasar",
+  "levels": [
+    {
+      "levelId": "level-1",
+      "levelLabel": "Level Minuman",
+      "sectionTitle": "BAGIAN 1, UNIT 1",
+      "lessonTitle": "Menawarkan dan menerima minuman",
+      "xpToUnlock": 13,
+      "nextObjective": "Menceritakan dari mana asalmu",
+      "streak": 3,
+      "streakGoal": 10,
+      "heartPercent": 0.92,
+      "questions": [
+        {
+          "id": "unit1-q1",
+          "categoryLabel": "KOSAKATA BARU",
+          "prompt": "Terjemahkan kalimat ini",
+          "newWord": "The coffee is hot.",
+          "hint": "Ini kata baru. Ketuk untuk melihat artinya.",
+          "answerSlots": [
+            { "text": "kopi", "locked": true },
+            { "text": "", "locked": false },
+            { "text": "", "locked": false }
+          ],
+          "wordBank": [
+            "kopi",
+            "itu",
+            "panas",
+            "hangat",
+            "dingin",
+            "sekali"
+          ],
+          "correctAnswer": ["kopi", "itu", "panas"],
+          "feedback": "Luar biasa!"
+        },
+        {
+          "id": "unit1-q2",
+          "categoryLabel": "KALIMAT",
+          "prompt": "Susun kalimat permintaan teh",
+          "newWord": "beri",
+          "hint": "Gunakan kata sopan di awal.",
+          "answerSlots": [
+            { "text": "tolong", "locked": true },
+            { "text": "", "locked": false },
+            { "text": "", "locked": false },
+            { "text": "", "locked": false }
+          ],
+          "wordBank": [
+            "beri",
+            "saya",
+            "teh",
+            "segelas",
+            "tolong",
+            "kopi"
+          ],
+          "correctAnswer": ["tolong", "beri", "saya", "teh"],
+          "feedback": "Tepat! Itu kalimat sopan."
+        },
+        {
+          "id": "unit1-q3",
+          "categoryLabel": "PERTANYAAN",
+          "prompt": "Tanyakan apakah seseorang ingin air",
+          "newWord": "ingin",
+          "hint": "Mulai dengan kata tanya.",
+          "answerSlots": [
+            { "text": "", "locked": false },
+            { "text": "", "locked": false },
+            { "text": "", "locked": false },
+            { "text": "", "locked": false }
+          ],
+          "wordBank": [
+            "apakah",
+            "kamu",
+            "ingin",
+            "air",
+            "kopi",
+            "dia"
+          ],
+          "correctAnswer": ["apakah", "kamu", "ingin", "air"],
+          "feedback": "Bagus! Pertanyaannya jelas."
+        },
+        {
+          "id": "unit1-q4",
+          "categoryLabel": "UNGKAPAN",
+          "prompt": "Ucapkan terima kasih untuk minuman",
+          "newWord": "minuman",
+          "hint": "Gunakan frasa 'atas'.",
+          "answerSlots": [
+            { "text": "", "locked": false },
+            { "text": "", "locked": false },
+            { "text": "", "locked": false },
+            { "text": "itu", "locked": true }
+          ],
+          "wordBank": [
+            "terima kasih",
+            "atas",
+            "minuman",
+            "itu",
+            "hangat",
+            "sekali"
+          ],
+          "correctAnswer": ["terima kasih", "atas", "minuman", "itu"],
+          "feedback": "Sopan sekali!"
+        },
+        {
+          "id": "unit1-q5",
+          "categoryLabel": "DESKRIPSI",
+          "prompt": "Katakan bahwa kamu ingin susu dingin",
+          "newWord": "dingin",
+          "hint": "Mulai dengan 'saya'.",
+          "answerSlots": [
+            { "text": "", "locked": false },
+            { "text": "", "locked": false },
+            { "text": "", "locked": false },
+            { "text": "", "locked": false }
+          ],
+          "wordBank": [
+            "saya",
+            "ingin",
+            "susu",
+            "dingin",
+            "kopi",
+            "panas"
+          ],
+          "correctAnswer": ["saya", "ingin", "susu", "dingin"],
+          "feedback": "Mantap!"
+        }
+      ]
+    },
+    {
+      "levelId": "level-2",
+      "levelLabel": "Level Perkenalan",
+      "sectionTitle": "BAGIAN 1, UNIT 2",
+      "lessonTitle": "Berkenalan dengan orang baru",
+      "xpToUnlock": 15,
+      "nextObjective": "Menjelaskan pekerjaanmu",
+      "streak": 4,
+      "streakGoal": 12,
+      "heartPercent": 0.88,
+      "questions": [
+        {
+          "id": "unit2-q1",
+          "categoryLabel": "PENGENALAN",
+          "prompt": "Perkenalkan namamu",
+          "newWord": "nama",
+          "hint": "Sebutkan nama Dita.",
+          "answerSlots": [
+            { "text": "nama", "locked": true },
+            { "text": "", "locked": false },
+            { "text": "", "locked": false }
+          ],
+          "wordBank": [
+            "nama",
+            "saya",
+            "dita",
+            "halo",
+            "senang",
+            "jumpa"
+          ],
+          "correctAnswer": ["nama", "saya", "dita"],
+          "feedback": "Perkenalanmu jelas!"
+        },
+        {
+          "id": "unit2-q2",
+          "categoryLabel": "ASAL",
+          "prompt": "Katakan kamu dari Jakarta",
+          "newWord": "dari",
+          "hint": "Mulai dengan 'saya'.",
+          "answerSlots": [
+            { "text": "", "locked": false },
+            { "text": "", "locked": false },
+            { "text": "", "locked": false }
+          ],
+          "wordBank": [
+            "saya",
+            "dari",
+            "jakarta",
+            "bandung",
+            "dia",
+            "kamu"
+          ],
+          "correctAnswer": ["saya", "dari", "jakarta"],
+          "feedback": "Bagus!"
+        },
+        {
+          "id": "unit2-q3",
+          "categoryLabel": "SAPAAN",
+          "prompt": "Ucapkan senang bertemu",
+          "newWord": "senang",
+          "hint": "Gunakan kata 'denganmu'.",
+          "answerSlots": [
+            { "text": "", "locked": false },
+            { "text": "", "locked": false },
+            { "text": "", "locked": false }
+          ],
+          "wordBank": [
+            "senang",
+            "bertemu",
+            "denganmu",
+            "lagi",
+            "hari",
+            "ini"
+          ],
+          "correctAnswer": ["senang", "bertemu", "denganmu"],
+          "feedback": "Senyummu terdengar!"
+        },
+        {
+          "id": "unit2-q4",
+          "categoryLabel": "PEKERJAAN",
+          "prompt": "Katakan dia seorang guru",
+          "newWord": "guru",
+          "hint": "Tambahkan kata 'adalah'.",
+          "answerSlots": [
+            { "text": "", "locked": false },
+            { "text": "", "locked": false },
+            { "text": "", "locked": false },
+            { "text": "", "locked": false }
+          ],
+          "wordBank": [
+            "dia",
+            "adalah",
+            "seorang",
+            "guru",
+            "dokter",
+            "murid"
+          ],
+          "correctAnswer": ["dia", "adalah", "seorang", "guru"],
+          "feedback": "Benar sekali."
+        },
+        {
+          "id": "unit2-q5",
+          "categoryLabel": "PERTANYAAN",
+          "prompt": "Tanyakan tempat tinggal",
+          "newWord": "tinggal",
+          "hint": "Gunakan 'di mana'.",
+          "answerSlots": [
+            { "text": "", "locked": false },
+            { "text": "", "locked": false },
+            { "text": "", "locked": false }
+          ],
+          "wordBank": [
+            "di mana",
+            "kamu",
+            "tinggal",
+            "apa",
+            "siapa",
+            "dari"
+          ],
+          "correctAnswer": ["di mana", "kamu", "tinggal"],
+          "feedback": "Pertanyaanmu sopan."
+        }
+      ]
+    }
+  ]
+}

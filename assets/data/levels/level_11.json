@@ -1,0 +1,83 @@
+{
+  "levelId": "level-11",
+  "levelLabel": "Level Kegiatan di Tempat Umum",
+  "sectionTitle": "BAGIAN 1, UNIT 11",
+  "lessonTitle": "Kegiatan sederhana di tempat umum",
+  "xpToUnlock": 60,
+  "nextObjective": "Belajar makanan dasar",
+  "streak": 0,
+  "streakGoal": 10,
+  "heartPercent": 1.0,
+  "questions": [
+    {
+      "id": "unit11-q1",
+      "categoryLabel": "KOSAKATA",
+      "prompt": "Terjemahkan kata ini:",
+      "newWord": "membeli",
+      "hint": "Dipakai saat belanja.",
+      "answerSlots": [{ "text": "", "locked": false }],
+      "wordBank": ["buy", "walk", "play", "eat"],
+      "correctAnswer": ["buy"],
+      "feedback": "Benar! 'membeli' = 'buy'."
+    },
+    {
+      "id": "unit11-q2",
+      "categoryLabel": "KOSAKATA",
+      "prompt": "Terjemahkan kata ini:",
+      "newWord": "berjalan",
+      "hint": "Bergerak dengan kaki.",
+      "answerSlots": [{ "text": "", "locked": false }],
+      "wordBank": ["walk", "run", "sit", "buy"],
+      "correctAnswer": ["walk"],
+      "feedback": "Mantap!"
+    },
+    {
+      "id": "unit11-q3",
+      "categoryLabel": "AKTIVITAS",
+      "prompt": "Terjemahkan: 'Saya bermain di taman.'",
+      "newWord": "play",
+      "hint": "Format: I play __",
+      "answerSlots": [
+        { "text": "I", "locked": true },
+        { "text": "", "locked": false },
+        { "text": "in", "locked": true },
+        { "text": "the park", "locked": true }
+      ],
+      "wordBank": ["play", "walk", "buy"],
+      "correctAnswer": ["I", "play", "in", "the park"],
+      "feedback": "Nice!"
+    },
+    {
+      "id": "unit11-q4",
+      "categoryLabel": "AKTIVITAS",
+      "prompt": "Terjemahkan: 'Kami duduk di kursi.'",
+      "newWord": "sit",
+      "hint": "Format: We sit on ___",
+      "answerSlots": [
+        { "text": "We", "locked": true },
+        { "text": "", "locked": false },
+        { "text": "on", "locked": true },
+        { "text": "the chair", "locked": true }
+      ],
+      "wordBank": ["sit", "walk", "buy"],
+      "correctAnswer": ["We", "sit", "on", "the chair"],
+      "feedback": "Bagus!"
+    },
+    {
+      "id": "unit11-q5",
+      "categoryLabel": "AKTIVITAS",
+      "prompt": "Terjemahkan: 'Mereka makan di restoran.'",
+      "newWord": "eat",
+      "hint": "Format: They eat __",
+      "answerSlots": [
+        { "text": "They", "locked": true },
+        { "text": "", "locked": false },
+        { "text": "at", "locked": true },
+        { "text": "the restaurant", "locked": true }
+      ],
+      "wordBank": ["eat", "walk", "sit"],
+      "correctAnswer": ["They", "eat", "at", "the restaurant"],
+      "feedback": "Sip!"
+    }
+  ]
+}

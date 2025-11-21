@@ -1,0 +1,78 @@
+{
+  "levelId": "level-12",
+  "levelLabel": "Level Makanan",
+  "sectionTitle": "BAGIAN 1, UNIT 12",
+  "lessonTitle": "Makanan dasar",
+  "xpToUnlock": 65,
+  "nextObjective": "Belajar minuman tingkat dasar",
+  "streak": 0,
+  "streakGoal": 10,
+  "heartPercent": 1.0,
+  "questions": [
+    {
+      "id": "unit12-q1",
+      "categoryLabel": "KOSAKATA",
+      "prompt": "Terjemahkan kata ini:",
+      "newWord": "nasi",
+      "hint": "Makanan pokok.",
+      "answerSlots": [{ "text": "", "locked": false }],
+      "wordBank": ["rice", "bread", "fish", "chicken"],
+      "correctAnswer": ["rice"],
+      "feedback": "Benar!"
+    },
+    {
+      "id": "unit12-q2",
+      "categoryLabel": "KOSAKATA",
+      "prompt": "Terjemahkan kata ini:",
+      "newWord": "roti",
+      "hint": "Biasanya dimakan saat sarapan.",
+      "answerSlots": [{ "text": "", "locked": false }],
+      "wordBank": ["bread", "rice", "fish", "milk"],
+      "correctAnswer": ["bread"],
+      "feedback": "Mantap!"
+    },
+    {
+      "id": "unit12-q3",
+      "categoryLabel": "IDENTITAS",
+      "prompt": "Terjemahkan: 'Ini ayam.'",
+      "newWord": "chicken",
+      "hint": "Format: This is __",
+      "answerSlots": [
+        { "text": "This", "locked": true },
+        { "text": "is", "locked": true },
+        { "text": "", "locked": false }
+      ],
+      "wordBank": ["chicken", "fish", "bread"],
+      "correctAnswer": ["This", "is", "chicken"],
+      "feedback": "Good!"
+    },
+    {
+      "id": "unit12-q4",
+      "categoryLabel": "PREFERENSI",
+      "prompt": "Terjemahkan: 'Saya suka ikan.'",
+      "newWord": "fish",
+      "hint": "Format: I like __",
+      "answerSlots": [
+        { "text": "I", "locked": true },
+        { "text": "", "locked": false }
+      ],
+      "wordBank": ["like fish", "eat fish", "cook fish"],
+      "correctAnswer": ["I", "like fish"],
+      "feedback": "Nice!"
+    },
+    {
+      "id": "unit12-q5",
+      "categoryLabel": "PREFERENSI",
+      "prompt": "Terjemahkan: 'Saya makan roti.'",
+      "newWord": "eat",
+      "hint": "Format: I eat __",
+      "answerSlots": [
+        { "text": "I", "locked": true },
+        { "text": "", "locked": false }
+      ],
+      "wordBank": ["eat bread", "eat rice", "eat chicken"],
+      "correctAnswer": ["I", "eat bread"],
+      "feedback": "Sip!"
+    }
+  ]
+}

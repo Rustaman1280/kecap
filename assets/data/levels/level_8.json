@@ -1,0 +1,78 @@
+{
+  "levelId": "level-8",
+  "levelLabel": "Level Pakaian",
+  "sectionTitle": "BAGIAN 1, UNIT 8",
+  "lessonTitle": "Pakaian dasar",
+  "xpToUnlock": 45,
+  "nextObjective": "Berbicara tentang cuaca",
+  "streak": 0,
+  "streakGoal": 10,
+  "heartPercent": 1.0,
+  "questions": [
+    {
+      "id": "unit8-q1",
+      "categoryLabel": "KOSAKATA",
+      "prompt": "Terjemahkan kata ini:",
+      "newWord": "baju",
+      "hint": "Dipakai di tubuh bagian atas.",
+      "answerSlots": [{ "text": "", "locked": false }],
+      "wordBank": ["shirt", "pants", "shoes", "jacket"],
+      "correctAnswer": ["shirt"],
+      "feedback": "Benar! 'baju' = 'shirt'."
+    },
+    {
+      "id": "unit8-q2",
+      "categoryLabel": "KOSAKATA",
+      "prompt": "Terjemahkan kata ini:",
+      "newWord": "celana",
+      "hint": "Dipakai di bagian bawah tubuh.",
+      "answerSlots": [{ "text": "", "locked": false }],
+      "wordBank": ["pants", "shirt", "hat", "shoes"],
+      "correctAnswer": ["pants"],
+      "feedback": "Mantap!"
+    },
+    {
+      "id": "unit8-q3",
+      "categoryLabel": "IDENTITAS",
+      "prompt": "Terjemahkan: 'Ini sepatu saya.'",
+      "newWord": "shoes",
+      "hint": "Format: These are my shoes.",
+      "answerSlots": [
+        { "text": "These", "locked": true },
+        { "text": "are", "locked": true },
+        { "text": "", "locked": false }
+      ],
+      "wordBank": ["my shoes", "my shirt", "my pants"],
+      "correctAnswer": ["These", "are", "my shoes"],
+      "feedback": "Nice!"
+    },
+    {
+      "id": "unit8-q4",
+      "categoryLabel": "DESKRIPSI",
+      "prompt": "Terjemahkan: 'Saya memakai jaket.'",
+      "newWord": "wear",
+      "hint": "Format: I wear ___",
+      "answerSlots": [
+        { "text": "I", "locked": true },
+        { "text": "", "locked": false }
+      ],
+      "wordBank": ["wear a jacket", "wear shoes", "wear pants"],
+      "correctAnswer": ["I", "wear a jacket"],
+      "feedback": "Good! 'I wear a jacket.'"
+    },
+    {
+      "id": "unit8-q5",
+      "categoryLabel": "DESKRIPSI",
+      "prompt": "Terjemahkan: 'Bajuku merah.'",
+      "newWord": "red",
+      "hint": "Format: My shirt is __",
+      "answerSlots": [
+        { "text": "My shirt", "locked": true },
+        { "text": "", "locked": false }
+      ],
+      "wordBank": ["is red", "is blue", "is black"],
+      "correctAnswer": ["My shirt", "is red"],
+      "feedback": "Sip!"
+    }
+  ]
+}

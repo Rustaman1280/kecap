@@ -1,0 +1,107 @@
+{
+  "levelId": "level-4",
+  "levelLabel": "Level Keluarga",
+  "sectionTitle": "BAGIAN 1, UNIT 4",
+  "lessonTitle": "Mengenal anggota keluarga",
+  "xpToUnlock": 25,
+  "nextObjective": "Berbicara tentang kegiatan sehari-hari",
+  "streak": 0,
+  "streakGoal": 10,
+  "heartPercent": 1.0,
+  "questions": [
+    {
+      "id": "unit4-q1",
+      "categoryLabel": "KOSAKATA",
+      "prompt": "Terjemahkan kata ini ke bahasa Inggris:",
+      "newWord": "ibu",
+      "hint": "Orang tua perempuan.",
+      "answerSlots": [
+        { "text": "", "locked": false }
+      ],
+      "wordBank": [
+        "mother",
+        "father",
+        "sister",
+        "brother"
+      ],
+      "correctAnswer": ["mother"],
+      "feedback": "Bagus! 'ibu' = 'mother'."
+    },
+    {
+      "id": "unit4-q2",
+      "categoryLabel": "KOSAKATA",
+      "prompt": "Terjemahkan kata ini ke bahasa Inggris:",
+      "newWord": "ayah",
+      "hint": "Orang tua laki-laki.",
+      "answerSlots": [
+        { "text": "", "locked": false }
+      ],
+      "wordBank": [
+        "father",
+        "mother",
+        "brother",
+        "uncle"
+      ],
+      "correctAnswer": ["father"],
+      "feedback": "Benar! 'ayah' = 'father'."
+    },
+    {
+      "id": "unit4-q3",
+      "categoryLabel": "IDENTITAS",
+      "prompt": "Terjemahkan: 'Ini ibu saya.'",
+      "newWord": "this",
+      "hint": "Format: This is __",
+      "answerSlots": [
+        { "text": "This", "locked": true },
+        { "text": "is", "locked": true },
+        { "text": "", "locked": false }
+      ],
+      "wordBank": [
+        "my mother",
+        "my father",
+        "my sister",
+        "mother"
+      ],
+      "correctAnswer": ["This", "is", "my mother"],
+      "feedback": "Mantap! 'This is my mother.'"
+    },
+    {
+      "id": "unit4-q4",
+      "categoryLabel": "IDENTITAS",
+      "prompt": "Terjemahkan: 'Dia kakak laki-laki saya.'",
+      "newWord": "brother",
+      "hint": "Gunakan 'He is…'",
+      "answerSlots": [
+        { "text": "He", "locked": true },
+        { "text": "", "locked": false },
+        { "text": "my brother", "locked": true }
+      ],
+      "wordBank": [
+        "is",
+        "are",
+        "am"
+      ],
+      "correctAnswer": ["He", "is", "my brother"],
+      "feedback": "Nice! 'He is my brother.'"
+    },
+    {
+      "id": "unit4-q5",
+      "categoryLabel": "DESKRIPSI",
+      "prompt": "Terjemahkan: 'Ibu saya baik.'",
+      "newWord": "kind",
+      "hint": "Format: My mother is __",
+      "answerSlots": [
+        { "text": "My mother", "locked": true },
+        { "text": "", "locked": false }
+      ],
+      "wordBank": [
+        "is kind",
+        "kind",
+        "is happy",
+        "happy"
+      ],
+      "correctAnswer": ["My mother", "is kind"],
+      "feedback": "Bagus! 'My mother is kind.'"
+    }
+  ]
+}

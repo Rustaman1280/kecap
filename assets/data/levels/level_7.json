@@ -1,0 +1,79 @@
+{
+  "levelId": "level-7",
+  "levelLabel": "Level Warna",
+  "sectionTitle": "BAGIAN 1, UNIT 7",
+  "lessonTitle": "Mengenal warna dalam bahasa Inggris",
+  "xpToUnlock": 40,
+  "nextObjective": "Berbicara tentang pakaian",
+  "streak": 0,
+  "streakGoal": 10,
+  "heartPercent": 1.0,
+  "questions": [
+    {
+      "id": "unit7-q1",
+      "categoryLabel": "KOSAKATA",
+      "prompt": "Terjemahkan warna ini:",
+      "newWord": "merah",
+      "hint": "Warna darah.",
+      "answerSlots": [{ "text": "", "locked": false }],
+      "wordBank": ["red", "blue", "green", "black"],
+      "correctAnswer": ["red"],
+      "feedback": "Betul! 'merah' = 'red'."
+    },
+    {
+      "id": "unit7-q2",
+      "categoryLabel": "KOSAKATA",
+      "prompt": "Terjemahkan warna ini:",
+      "newWord": "biru",
+      "hint": "Warna langit.",
+      "answerSlots": [{ "text": "", "locked": false }],
+      "wordBank": ["blue", "green", "yellow", "red"],
+      "correctAnswer": ["blue"],
+      "feedback": "Bagus! 'biru' = 'blue'."
+    },
+    {
+      "id": "unit7-q3",
+      "categoryLabel": "IDENTITAS",
+      "prompt": "Terjemahkan: 'Ini hijau.'",
+      "newWord": "green",
+      "hint": "Format: It is __",
+      "answerSlots": [
+        { "text": "It", "locked": true },
+        { "text": "is", "locked": true },
+        { "text": "", "locked": false }
+      ],
+      "wordBank": ["green", "yellow", "blue"],
+      "correctAnswer": ["It", "is", "green"],
+      "feedback": "Mantap! 'It is green.'"
+    },
+    {
+      "id": "unit7-q4",
+      "categoryLabel": "PENGENALAN",
+      "prompt": "Terjemahkan: 'Ini warna hitam.'",
+      "newWord": "black",
+      "hint": "Format: This is black.",
+      "answerSlots": [
+        { "text": "This", "locked": true },
+        { "text": "is", "locked": true },
+        { "text": "", "locked": false }
+      ],
+      "wordBank": ["black", "red", "white"],
+      "correctAnswer": ["This", "is", "black"],
+      "feedback": "Nice!"
+    },
+    {
+      "id": "unit7-q5",
+      "categoryLabel": "DESKRIPSI",
+      "prompt": "Terjemahkan: 'Bajuku kuning.'",
+      "newWord": "yellow",
+      "hint": "Format: My shirt is __",
+      "answerSlots": [
+        { "text": "My shirt", "locked": true },
+        { "text": "", "locked": false }
+      ],
+      "wordBank": ["is yellow", "is red", "is black"],
+      "correctAnswer": ["My shirt", "is yellow"],
+      "feedback": "Bagus!"
+    }
+  ]
+}

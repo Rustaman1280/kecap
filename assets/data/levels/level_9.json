@@ -1,0 +1,79 @@
+{
+  "levelId": "level-9",
+  "levelLabel": "Level Cuaca",
+  "sectionTitle": "BAGIAN 1, UNIT 9",
+  "lessonTitle": "Cuaca dasar",
+  "xpToUnlock": 50,
+  "nextObjective": "Belajar tempat umum",
+  "streak": 0,
+  "streakGoal": 10,
+  "heartPercent": 1.0,
+  "questions": [
+    {
+      "id": "unit9-q1",
+      "categoryLabel": "KOSAKATA",
+      "prompt": "Terjemahkan kata ini:",
+      "newWord": "hujan",
+      "hint": "Dipakai saat cuaca basah.",
+      "answerSlots": [{ "text": "", "locked": false }],
+      "wordBank": ["rainy", "sunny", "windy", "cold"],
+      "correctAnswer": ["rainy"],
+      "feedback": "Bagus! 'hujan' = 'rainy'."
+    },
+    {
+      "id": "unit9-q2",
+      "categoryLabel": "KOSAKATA",
+      "prompt": "Terjemahkan kata ini:",
+      "newWord": "panas",
+      "hint": "Cuaca terik.",
+      "answerSlots": [{ "text": "", "locked": false }],
+      "wordBank": ["hot", "cold", "rainy", "cloudy"],
+      "correctAnswer": ["hot"],
+      "feedback": "Mantap!"
+    },
+    {
+      "id": "unit9-q3",
+      "categoryLabel": "IDENTITAS",
+      "prompt": "Terjemahkan: 'Ini cerah.'",
+      "newWord": "sunny",
+      "hint": "Format: It is __",
+      "answerSlots": [
+        { "text": "It", "locked": true },
+        { "text": "is", "locked": true },
+        { "text": "", "locked": false }
+      ],
+      "wordBank": ["sunny", "rainy", "cloudy"],
+      "correctAnswer": ["It", "is", "sunny"],
+      "feedback": "Good! 'It is sunny.'"
+    },
+    {
+      "id": "unit9-q4",
+      "categoryLabel": "DESKRIPSI",
+      "prompt": "Terjemahkan: 'Cuacanya dingin.'",
+      "newWord": "cold",
+      "hint": "Format: The weather is __",
+      "answerSlots": [
+        { "text": "The weather", "locked": true },
+        { "text": "", "locked": false }
+      ],
+      "wordBank": ["is cold", "is hot", "cold"],
+      "correctAnswer": ["The weather", "is cold"],
+      "feedback": "Nice!"
+    },
+    {
+      "id": "unit9-q5",
+      "categoryLabel": "IDENTITAS",
+      "prompt": "Terjemahkan: 'Ini berangin.'",
+      "newWord": "windy",
+      "hint": "Gunakan 'It is…'",
+      "answerSlots": [
+        { "text": "It", "locked": true },
+        { "text": "is", "locked": true },
+        { "text": "", "locked": false }
+      ],
+      "wordBank": ["windy", "cold", "rainy"],
+      "correctAnswer": ["It", "is", "windy"],
+      "feedback": "Sip!"
+    }
+  ]
+}

@@ -1,0 +1,112 @@
+{
+  "levelId": "level-3",
+  "levelLabel": "Level Perkenalan Diri",
+  "sectionTitle": "BAGIAN 1, UNIT 3",
+  "lessonTitle": "Memperkenalkan diri dengan kalimat sederhana",
+  "xpToUnlock": 20,
+  "nextObjective": "Membahas keluarga",
+  "streak": 0,
+  "streakGoal": 10,
+  "heartPercent": 1.0,
+  "questions": [
+    {
+      "id": "unit3-q1",
+      "categoryLabel": "KOSAKATA",
+      "prompt": "Terjemahkan kata ini ke bahasa Inggris:",
+      "newWord": "nama",
+      "hint": "Dipakai di 'My ___ is…'",
+      "answerSlots": [
+        { "text": "", "locked": false }
+      ],
+      "wordBank": [
+        "name",
+        "age",
+        "hobby",
+        "place"
+      ],
+      "correctAnswer": ["name"],
+      "feedback": "Betul! 'nama' = 'name'."
+    },
+    {
+      "id": "unit3-q2",
+      "categoryLabel": "PERKENALAN",
+      "prompt": "Terjemahkan: 'Nama saya Andi.'",
+      "newWord": "my",
+      "hint": "Format: My name is ___",
+      "answerSlots": [
+        { "text": "My", "locked": true },
+        { "text": "", "locked": false },
+        { "text": "is", "locked": true },
+        { "text": "Andi", "locked": true }
+      ],
+      "wordBank": [
+        "name",
+        "age",
+        "from",
+        "live"
+      ],
+      "correctAnswer": ["My", "name", "is", "Andi"],
+      "feedback": "Nice! 'My name is Andi.'"
+    },
+    {
+      "id": "unit3-q3",
+      "categoryLabel": "UMUR",
+      "prompt": "Terjemahkan: 'Saya berumur 16 tahun.'",
+      "newWord": "years",
+      "hint": "Format dasar: I am __ years old.",
+      "answerSlots": [
+        { "text": "I", "locked": true },
+        { "text": "", "locked": false },
+        { "text": "16", "locked": true },
+        { "text": "", "locked": false }
+      ],
+      "wordBank": [
+        "am",
+        "is",
+        "years",
+        "old"
+      ],
+      "correctAnswer": ["I", "am", "16", "years", "old"],
+      "feedback": "Bagus! 'I am 16 years old.'"
+    },
+    {
+      "id": "unit3-q4",
+      "categoryLabel": "HOBI",
+      "prompt": "Terjemahkan: 'Saya suka membaca.'",
+      "newWord": "like",
+      "hint": "Format: I like __",
+      "answerSlots": [
+        { "text": "I", "locked": true },
+        { "text": "", "locked": false }
+      ],
+      "wordBank": [
+        "like",
+        "read",
+        "reading",
+        "play"
+      ],
+      "correctAnswer": ["I", "like", "reading"],
+      "feedback": "Mantap! 'I like reading.'"
+    },
+    {
+      "id": "unit3-q5",
+      "categoryLabel": "PERKENALAN LENGKAP",
+      "prompt": "Susun kalimat: 'Saya Andi.'",
+      "newWord": "am",
+      "hint": "Gunakan pola: I am ___",
+      "answerSlots": [
+        { "text": "I", "locked": true },
+        { "text": "", "locked": false },
+        { "text": "Andi", "locked": true }
+      ],
+      "wordBank": [
+        "am",
+        "is",
+        "are",
+        "from"
+      ],
+      "correctAnswer": ["I", "am", "Andi"],
+      "feedback": "Sip! 'I am Andi.'"
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+{
+  "courseTitle": "Bahasa Inggris Dasar",
+  "levelFiles": [
+    "assets/data/levels/level_1.json",
+    "assets/data/levels/level_2.json"
+  ]
+}

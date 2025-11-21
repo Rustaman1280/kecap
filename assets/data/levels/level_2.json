@@ -1,0 +1,114 @@
+{
+  "levelId": "level-2",
+  "levelLabel": "Level Asalmu (Dasar)",
+  "sectionTitle": "BAGIAN 1, UNIT 2",
+  "lessonTitle": "Menceritakan asalmu dengan kalimat sederhana",
+  "xpToUnlock": 15,
+  "nextObjective": "Memperkenalkan dirimu",
+  "streak": 0,
+  "streakGoal": 10,
+  "heartPercent": 1.0,
+  "questions": [
+    {
+      "id": "unit2-q1",
+      "categoryLabel": "KOSAKATA",
+      "prompt": "Terjemahkan kata ini ke bahasa Inggris:",
+      "newWord": "dari",
+      "hint": "Digunakan di 'I am ___ Indonesia'.",
+      "answerSlots": [
+        { "text": "", "locked": false }
+      ],
+      "wordBank": [
+        "from",
+        "in",
+        "at",
+        "to"
+      ],
+      "correctAnswer": ["from"],
+      "feedback": "Betul! 'dari' = 'from'."
+    },
+    {
+      "id": "unit2-q2",
+      "categoryLabel": "KALIMAT SEDERHANA",
+      "prompt": "Terjemahkan: 'Saya dari Indonesia.'",
+      "newWord": "am",
+      "hint": "Mulai dengan 'I am'.",
+      "answerSlots": [
+        { "text": "I", "locked": true },
+        { "text": "", "locked": false },
+        { "text": "", "locked": false },
+        { "text": "Indonesia", "locked": true }
+      ],
+      "wordBank": [
+        "am",
+        "is",
+        "from",
+        "in"
+      ],
+      "correctAnswer": ["I", "am", "from", "Indonesia"],
+      "feedback": "Nice! 'I am from Indonesia.'"
+    },
+    {
+      "id": "unit2-q3",
+      "categoryLabel": "KALIMAT SEDERHANA",
+      "prompt": "Terjemahkan: 'Dia dari Jepang.' (laki-laki)",
+      "newWord": "he",
+      "hint": "Mulai dengan 'He is'.",
+      "answerSlots": [
+        { "text": "He", "locked": true },
+        { "text": "", "locked": false },
+        { "text": "Japan", "locked": true }
+      ],
+      "wordBank": [
+        "is",
+        "are",
+        "from",
+        "at"
+      ],
+      "correctAnswer": ["He", "is", "from", "Japan"],
+      "feedback": "Bagus! 'He is from Japan.'"
+    },
+    {
+      "id": "unit2-q4",
+      "categoryLabel": "IDENTITAS",
+      "prompt": "Terjemahkan: 'Kamu dari mana?'",
+      "newWord": "where",
+      "hint": "Pola dasar: 'Where are you from?'",
+      "answerSlots": [
+        { "text": "", "locked": false },
+        { "text": "are", "locked": true },
+        { "text": "you", "locked": true },
+        { "text": "", "locked": false }
+      ],
+      "wordBank": [
+        "where",
+        "from",
+        "who",
+        "what"
+      ],
+      "correctAnswer": ["where", "are", "you", "from"],
+      "feedback": "Mantap! 'Where are you from?'"
+    },
+    {
+      "id": "unit2-q5",
+      "categoryLabel": "LOKASI",
+      "prompt": "Terjemahkan: 'Saya tinggal di Bandung.'",
+      "newWord": "live",
+      "hint": "Pola dasar: 'I live in __'.",
+      "answerSlots": [
+        { "text": "I", "locked": true },
+        { "text": "", "locked": false },
+        { "text": "in", "locked": true },
+        { "text": "Bandung", "locked": true }
+      ],
+      "wordBank": [
+        "live",
+        "am",
+        "is",
+        "are"
+      ],
+      "correctAnswer": ["I", "live", "in", "Bandung"],
+      "feedback": "Great! 'I live in Bandung.'"
+    }
+  ]
+}

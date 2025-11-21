@@ -1,0 +1,82 @@
+{
+  "levelId": "level-10",
+  "levelLabel": "Level Tempat Umum",
+  "sectionTitle": "BAGIAN 1, UNIT 10",
+  "lessonTitle": "Tempat umum dasar",
+  "xpToUnlock": 55,
+  "nextObjective": "Kegiatan di tempat umum",
+  "streak": 0,
+  "streakGoal": 10,
+  "heartPercent": 1.0,
+  "questions": [
+    {
+      "id": "unit10-q1",
+      "categoryLabel": "KOSAKATA",
+      "prompt": "Terjemahkan kata ini:",
+      "newWord": "sekolah",
+      "hint": "Tempat belajar.",
+      "answerSlots": [{ "text": "", "locked": false }],
+      "wordBank": ["school", "park", "market", "hospital"],
+      "correctAnswer": ["school"],
+      "feedback": "Betul!"
+    },
+    {
+      "id": "unit10-q2",
+      "categoryLabel": "KOSAKATA",
+      "prompt": "Terjemahkan kata ini:",
+      "newWord": "taman",
+      "hint": "Banyak pohon dan bangku.",
+      "answerSlots": [{ "text": "", "locked": false }],
+      "wordBank": ["park", "school", "store", "hospital"],
+      "correctAnswer": ["park"],
+      "feedback": "Nice!"
+    },
+    {
+      "id": "unit10-q3",
+      "categoryLabel": "IDENTITAS",
+      "prompt": "Terjemahkan: 'Saya di sekolah.'",
+      "newWord": "at",
+      "hint": "Format: I am at __",
+      "answerSlots": [
+        { "text": "I", "locked": true },
+        { "text": "am", "locked": true },
+        { "text": "at", "locked": true },
+        { "text": "", "locked": false }
+      ],
+      "wordBank": ["school", "park", "home"],
+      "correctAnswer": ["I", "am", "at", "school"],
+      "feedback": "Bagus!"
+    },
+    {
+      "id": "unit10-q4",
+      "categoryLabel": "IDENTITAS",
+      "prompt": "Terjemahkan: 'Ini rumah sakit.'",
+      "newWord": "hospital",
+      "hint": "Format: This is __",
+      "answerSlots": [
+        { "text": "This", "locked": true },
+        { "text": "is", "locked": true },
+        { "text": "", "locked": false }
+      ],
+      "wordBank": ["hospital", "market", "store"],
+      "correctAnswer": ["This", "is", "hospital"],
+      "feedback": "Mantap!"
+    },
+    {
+      "id": "unit10-q5",
+      "categoryLabel": "DESKRIPSI",
+      "prompt": "Terjemahkan: 'Saya pergi ke pasar.'",
+      "newWord": "market",
+      "hint": "Format: I go to __",
+      "answerSlots": [
+        { "text": "I", "locked": true },
+        { "text": "go", "locked": true },
+        { "text": "to", "locked": true },
+        { "text": "", "locked": false }
+      ],
+      "wordBank": ["the market", "market", "park"],
+      "correctAnswer": ["I", "go", "to", "the market"],
+      "feedback": "Great!"
+    }
+  ]
+}

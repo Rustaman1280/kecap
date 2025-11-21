@@ -1,0 +1,111 @@
+{
+  "levelId": "level-5",
+  "levelLabel": "Level Kegiatan Harian",
+  "sectionTitle": "BAGIAN 1, UNIT 5",
+  "lessonTitle": "Kegiatan sehari-hari dengan kalimat sederhana",
+  "xpToUnlock": 30,
+  "nextObjective": "Berbicara tentang benda-benda di rumah",
+  "streak": 0,
+  "streakGoal": 10,
+  "heartPercent": 1.0,
+  "questions": [
+    {
+      "id": "unit5-q1",
+      "categoryLabel": "KOSAKATA",
+      "prompt": "Terjemahkan kata ini ke bahasa Inggris:",
+      "newWord": "makan",
+      "hint": "Dipakai di 'I ___ rice.'",
+      "answerSlots": [
+        { "text": "", "locked": false }
+      ],
+      "wordBank": [
+        "eat",
+        "go",
+        "sleep",
+        "wake"
+      ],
+      "correctAnswer": ["eat"],
+      "feedback": "Bagus! 'makan' = 'eat'."
+    },
+    {
+      "id": "unit5-q2",
+      "categoryLabel": "KOSAKATA",
+      "prompt": "Terjemahkan kata ini ke bahasa Inggris:",
+      "newWord": "tidur",
+      "hint": "Kebalikan dari bangun.",
+      "answerSlots": [
+        { "text": "", "locked": false }
+      ],
+      "wordBank": [
+        "sleep",
+        "wake up",
+        "eat",
+        "go"
+      ],
+      "correctAnswer": ["sleep"],
+      "feedback": "Benar! 'tidur' = 'sleep'."
+    },
+    {
+      "id": "unit5-q3",
+      "categoryLabel": "KALIMAT SEDERHANA",
+      "prompt": "Terjemahkan: 'Saya pergi ke sekolah.'",
+      "newWord": "go",
+      "hint": "Format: I go to school.",
+      "answerSlots": [
+        { "text": "I", "locked": true },
+        { "text": "", "locked": false },
+        { "text": "to", "locked": true },
+        { "text": "school", "locked": true }
+      ],
+      "wordBank": [
+        "go",
+        "eat",
+        "am",
+        "sleep"
+      ],
+      "correctAnswer": ["I", "go", "to", "school"],
+      "feedback": "Mantap! 'I go to school.'"
+    },
+    {
+      "id": "unit5-q4",
+      "categoryLabel": "KEBIASAAN",
+      "prompt": "Terjemahkan: 'Saya bangun pagi.'",
+      "newWord": "wake up",
+      "hint": "Gunakan 'wake up'.",
+      "answerSlots": [
+        { "text": "I", "locked": true },
+        { "text": "", "locked": false },
+        { "text": "in", "locked": false },
+        { "text": "", "locked": false }
+      ],
+      "wordBank": [
+        "wake",
+        "wake up",
+        "morning",
+        "the",
+        "at"
+      ],
+      "correctAnswer": ["I", "wake up", "in", "the", "morning"],
+      "feedback": "Good job! 'I wake up in the morning.'"
+    },
+    {
+      "id": "unit5-q5",
+      "categoryLabel": "KEBIASAAN",
+      "prompt": "Terjemahkan: 'Saya makan malam.'",
+      "newWord": "dinner",
+      "hint": "Gunakan 'eat dinner'.",
+      "answerSlots": [
+        { "text": "I", "locked": true },
+        { "text": "", "locked": false }
+      ],
+      "wordBank": [
+        "eat dinner",
+        "eat",
+        "sleep",
+        "go"
+      ],
+      "correctAnswer": ["I", "eat dinner"],
+      "feedback": "Sip! 'I eat dinner.'"
+    }
+  ]
+}

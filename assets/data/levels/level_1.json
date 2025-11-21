@@ -1,0 +1,107 @@
+{
+  "levelId": "level-1",
+  "levelLabel": "Level Minuman (Dasar)",
+  "sectionTitle": "BAGIAN 1, UNIT 1",
+  "lessonTitle": "Kosakata minuman dasar",
+  "xpToUnlock": 0,
+  "nextObjective": "Mengenal kalimat sederhana tentang asalmu",
+  "streak": 0,
+  "streakGoal": 10,
+  "heartPercent": 1.0,
+  "questions": [
+    {
+      "id": "unit1-q1",
+      "categoryLabel": "KOSAKATA",
+      "prompt": "Terjemahkan kata ini ke bahasa Inggris:",
+      "newWord": "kopi",
+      "hint": "Ini minuman hitam yang biasa diminum pagi hari.",
+      "answerSlots": [
+        { "text": "", "locked": false }
+      ],
+      "wordBank": [
+        "coffee",
+        "milk",
+        "tea",
+        "water"
+      ],
+      "correctAnswer": ["coffee"],
+      "feedback": "Benar! 'kopi' = 'coffee'."
+    },
+    {
+      "id": "unit1-q2",
+      "categoryLabel": "KOSAKATA",
+      "prompt": "Terjemahkan kata ini ke bahasa Inggris:",
+      "newWord": "teh",
+      "hint": "Biasanya berwarna cokelat atau hijau.",
+      "answerSlots": [
+        { "text": "", "locked": false }
+      ],
+      "wordBank": [
+        "tea",
+        "coffee",
+        "milk",
+        "water"
+      ],
+      "correctAnswer": ["tea"],
+      "feedback": "Mantap! 'teh' = 'tea'."
+    },
+    {
+      "id": "unit1-q3",
+      "categoryLabel": "KOSAKATA",
+      "prompt": "Terjemahkan kata ini ke bahasa Inggris:",
+      "newWord": "susu",
+      "hint": "Minuman putih.",
+      "answerSlots": [
+        { "text": "", "locked": false }
+      ],
+      "wordBank": [
+        "milk",
+        "tea",
+        "coffee",
+        "water"
+      ],
+      "correctAnswer": ["milk"],
+      "feedback": "Bagus! 'susu' = 'milk'."
+    },
+    {
+      "id": "unit1-q4",
+      "categoryLabel": "KOSAKATA",
+      "prompt": "Terjemahkan frasa ini ke bahasa Inggris:",
+      "newWord": "air dingin",
+      "hint": "Gunakan kata 'cold' dan 'water'.",
+      "answerSlots": [
+        { "text": "", "locked": false },
+        { "text": "", "locked": false }
+      ],
+      "wordBank": [
+        "cold",
+        "hot",
+        "water",
+        "tea"
+      ],
+      "correctAnswer": ["cold", "water"],
+      "feedback": "Keren! 'air dingin' = 'cold water'."
+    },
+    {
+      "id": "unit1-q5",
+      "categoryLabel": "KALIMAT SEDERHANA",
+      "prompt": "Terjemahkan: 'Saya ingin air.'",
+      "newWord": "want",
+      "hint": "Mulai dengan 'I'.",
+      "answerSlots": [
+        { "text": "I", "locked": true },
+        { "text": "", "locked": false },
+        { "text": "", "locked": false }
+      ],
+      "wordBank": [
+        "I",
+        "want",
+        "water",
+        "milk",
+        "coffee"
+      ],
+      "correctAnswer": ["I", "want", "water"],
+      "feedback": "Sip! 'I want water.'"
+    }
+  ]
+}
