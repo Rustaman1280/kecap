@@ -6,7 +6,11 @@ import '../models/lesson_result.dart';
 import '../models/user_progress.dart';
 import '../repositories/lesson_repository.dart';
 import '../services/user_progress_service.dart';
+import '../widgets/app_bottom_nav.dart';
+import 'ai_hub_screen.dart';
+import 'leaderboard_screen.dart';
 import 'lesson_screen.dart';
+import 'profile_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({required this.user, super.key});
@@ -118,7 +122,10 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFF050E16),
-      bottomNavigationBar: const _BottomNav(),
+      bottomNavigationBar: AppBottomNav(
+        currentIndex: 0,
+        onTap: _handleBottomNavTap,
+      ),
       body: SafeArea(
         child: FutureBuilder<CourseData>(
           future: _courseFuture,
@@ -209,6 +216,41 @@ class _HomeScreenState extends State<HomeScreen> {
       if (!mounted) return;
       _startLesson(lesson, index, levels.length);
     });
+  }
+
+  void _handleBottomNavTap(int index) {
+    if (index == 0) return;
+    if (index == 1) {
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (_) => LeaderboardScreen(user: widget.user),
+        ),
+      );
+      return;
+    }
+    if (index == 2) {
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (_) => AiHubScreen(user: widget.user),
+        ),
+      );
+      return;
+    }
+    if (index == 3) {
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (_) => ProfileScreen(user: widget.user),
+        ),
+      );
+      return;
+    }
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('Menu ini sedang disiapkan'),
+        duration: Duration(seconds: 2),
+      ),
+    );
   }
 }
 
@@ -729,26 +771,6 @@ class _PathBubble extends StatelessWidget {
           ),
         ],
       ),
-    );
-  }
-}
-
-class _BottomNav extends StatelessWidget {
-  const _BottomNav();
-
-  @override
-  Widget build(BuildContext context) {
-    return BottomNavigationBar(
-      type: BottomNavigationBarType.fixed,
-      backgroundColor: const Color(0xFF0B131B),
-      selectedItemColor: const Color(0xFFFFB341),
-      unselectedItemColor: Colors.white54,
-      items: const [
-        BottomNavigationBarItem(icon: Icon(Icons.home_filled), label: 'Home'),
-        BottomNavigationBarItem(icon: Icon(Icons.leaderboard_outlined), label: 'Leaderboard'),
-        BottomNavigationBarItem(icon: Icon(Icons.smart_toy_outlined), label: 'Menu AI'),
-        BottomNavigationBarItem(icon: Icon(Icons.person_outline), label: 'Profile'),
-      ],
     );
   }
 }

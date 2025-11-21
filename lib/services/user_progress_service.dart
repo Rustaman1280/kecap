@@ -42,6 +42,18 @@ class UserProgressService {
     return UserProgress.fromMap(snapshot.data()!);
   }
 
+  Stream<List<UserProgress>> topXpLeaderboard({int limit = 10}) {
+    return _users
+        .orderBy('totalXp', descending: true)
+        .limit(limit)
+        .snapshots()
+        .map((snapshot) => snapshot.docs.map((doc) {
+              final data = Map<String, dynamic>.from(doc.data());
+              data['uid'] = doc.id;
+              return UserProgress.fromMap(data);
+            }).toList());
+  }
+
   Future<void> updateAfterLesson({
     required String uid,
     required int newLevelIndex,
