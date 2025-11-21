@@ -8,6 +8,7 @@ class UserProgress {
     required this.totalXp,
     required this.lastStreak,
     required this.heartsLeft,
+    required this.completedLevelIds,
   });
 
   final String uid;
@@ -18,6 +19,7 @@ class UserProgress {
   final int totalXp;
   final int lastStreak;
   final int heartsLeft;
+  final List<String> completedLevelIds;
 
   factory UserProgress.initial(String uid) {
     return UserProgress(
@@ -29,6 +31,7 @@ class UserProgress {
       totalXp: 0,
       lastStreak: 0,
       heartsLeft: 5,
+      completedLevelIds: const [],
     );
   }
 
@@ -42,6 +45,7 @@ class UserProgress {
       totalXp: (map['totalXp'] as num?)?.toInt() ?? 0,
       lastStreak: (map['lastStreak'] as num?)?.toInt() ?? 0,
       heartsLeft: (map['heartsLeft'] as num?)?.toInt() ?? 5,
+      completedLevelIds: _parseCompletedLevels(map['completedLevelIds']),
     );
   }
 
@@ -55,6 +59,7 @@ class UserProgress {
       'totalXp': totalXp,
       'lastStreak': lastStreak,
       'heartsLeft': heartsLeft,
+      'completedLevelIds': completedLevelIds,
     };
   }
 
@@ -66,6 +71,7 @@ class UserProgress {
     int? totalXp,
     int? lastStreak,
     int? heartsLeft,
+    List<String>? completedLevelIds,
   }) {
     return UserProgress(
       uid: uid,
@@ -76,6 +82,14 @@ class UserProgress {
       totalXp: totalXp ?? this.totalXp,
       lastStreak: lastStreak ?? this.lastStreak,
       heartsLeft: heartsLeft ?? this.heartsLeft,
+      completedLevelIds: completedLevelIds ?? this.completedLevelIds,
     );
+  }
+
+  static List<String> _parseCompletedLevels(dynamic raw) {
+    if (raw is List) {
+      return raw.map((e) => e as String? ?? '').where((e) => e.isNotEmpty).toList();
+    }
+    return const [];
   }
 }

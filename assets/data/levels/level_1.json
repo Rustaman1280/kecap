@@ -1,10 +1,10 @@
 {
   "levelId": "level-1",
-  "levelLabel": "Level Minuman (Dasar)",
+  "levelLabel": "Level Dasar: Minuman & Asalmu",
   "sectionTitle": "BAGIAN 1, UNIT 1",
-  "lessonTitle": "Kosakata minuman dasar",
+  "lessonTitle": "Kosakata minuman dan asalmu",
   "xpToUnlock": 0,
-  "nextObjective": "Mengenal kalimat sederhana tentang asalmu",
+  "nextObjective": "Memperkenalkan dirimu",
   "streak": 0,
   "streakGoal": 10,
   "heartPercent": 1.0,
@@ -94,14 +94,118 @@
         { "text": "", "locked": false }
       ],
       "wordBank": [
-        "I",
         "want",
         "water",
-        "milk",
-        "coffee"
+        "drink",
+        "tea"
       ],
       "correctAnswer": ["I", "want", "water"],
       "feedback": "Sip! 'I want water.'"
+    },
+    {
+      "id": "unit1-q6",
+      "categoryLabel": "PERTANYAAN",
+      "prompt": "Terjemahkan: 'Apakah kamu punya teh?'",
+      "newWord": "have",
+      "hint": "Gunakan pola: Do you ___.",
+      "answerSlots": [
+        { "text": "Do", "locked": true },
+        { "text": "you", "locked": true },
+        { "text": "", "locked": false },
+        { "text": "tea", "locked": true }
+      ],
+      "wordBank": [
+        "have",
+        "want",
+        "drink",
+        "need"
+      ],
+      "correctAnswer": ["Do", "you", "have", "tea"],
+      "feedback": "Nice! 'Do you have tea?'"
+    },
+    {
+      "id": "unit1-q7",
+      "categoryLabel": "KEBIASAAN",
+      "prompt": "Terjemahkan: 'Dia minum susu setiap pagi.'",
+      "newWord": "drinks",
+      "hint": "Gunakan 'She drinks ___ every morning'.",
+      "answerSlots": [
+        { "text": "She", "locked": true },
+        { "text": "", "locked": false },
+        { "text": "milk", "locked": true },
+        { "text": "every", "locked": true },
+        { "text": "morning", "locked": true }
+      ],
+      "wordBank": [
+        "drink",
+        "drinks",
+        "drinking",
+        "drank"
+      ],
+      "correctAnswer": ["She", "drinks", "milk", "every", "morning"],
+      "feedback": "Mantap! Gunakan 'drinks' untuk subjek tunggal."
+    },
+    {
+      "id": "unit1-q8",
+      "categoryLabel": "SUSUN KATA",
+      "prompt": "Susun kalimat: 'Minuman favorit saya kopi.'",
+      "newWord": "favorite",
+      "hint": "Mulai dengan 'My favorite drink'.",
+      "answerSlots": [
+        { "text": "", "locked": false },
+        { "text": "", "locked": false },
+        { "text": "drink", "locked": true },
+        { "text": "is", "locked": true },
+        { "text": "coffee", "locked": true }
+      ],
+      "wordBank": [
+        "My",
+        "favorite",
+        "Her",
+        "cold"
+      ],
+      "correctAnswer": ["My", "favorite", "drink", "is", "coffee"],
+      "feedback": "Bagus! 'My favorite drink is coffee.'"
+    },
+    {
+      "id": "unit1-q9",
+      "categoryLabel": "KOSAKATA",
+      "prompt": "Pilih kata bahasa Inggris untuk 'jus'.",
+      "newWord": "juice",
+      "hint": "Sering dipasangkan dengan orange.",
+      "answerSlots": [
+        { "text": "", "locked": false }
+      ],
+      "wordBank": [
+        "juice",
+        "rice",
+        "bread",
+        "soup"
+      ],
+      "correctAnswer": ["juice"],
+      "feedback": "Benar! 'jus' = 'juice'."
+    },
+    {
+      "id": "unit1-q10",
+      "categoryLabel": "DIALOG",
+      "prompt": "Lengkapi kalimat: 'Would you like ___ water?'",
+      "newWord": "some",
+      "hint": "Gunakan kata untuk menawarkan sesuatu.",
+      "answerSlots": [
+        { "text": "Would", "locked": true },
+        { "text": "you", "locked": true },
+        { "text": "like", "locked": true },
+        { "text": "", "locked": false },
+        { "text": "water", "locked": true }
+      ],
+      "wordBank": [
+        "some",
+        "any",
+        "many",
+        "those"
+      ],
+      "correctAnswer": ["Would", "you", "like", "some", "water"],
+      "feedback": "Great! Gunakan 'some' untuk menawarkan minuman."
     }
   ]
 }

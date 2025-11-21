@@ -15,12 +15,20 @@ class UserProgressService {
   Future<void> ensureUserDocument(User user) async {
     final docRef = _users.doc(user.uid);
     final doc = await docRef.get();
-    final payload = _defaultData(user);
     if (!doc.exists) {
-      await docRef.set(payload);
-    } else {
-      await docRef.set(payload, SetOptions(merge: true));
+      await docRef.set(_defaultData(user));
+      return;
     }
+
+    await docRef.set(
+      {
+        'displayName': user.displayName ?? '',
+        'email': user.email ?? '',
+        'photoUrl': user.photoURL ?? '',
+        'updatedAt': FieldValue.serverTimestamp(),
+      },
+      SetOptions(merge: true),
+    );
   }
 
   Future<UserProgress> getOrCreateProgress(User user) async {
@@ -38,17 +46,22 @@ class UserProgressService {
     required String uid,
     required int newLevelIndex,
     required LessonResult result,
+    required int xpDelta,
+    required List<String> completedLevelIds,
   }) async {
-    await _users.doc(uid).set(
-      {
-        'currentLevelIndex': newLevelIndex,
-        'totalXp': FieldValue.increment(result.xpEarned),
-        'lastStreak': result.achievedStreak,
-        'heartsLeft': result.heartsLeft,
-        'updatedAt': FieldValue.serverTimestamp(),
-      },
-      SetOptions(merge: true),
-    );
+    final Map<String, dynamic> payload = {
+      'currentLevelIndex': newLevelIndex,
+      'lastStreak': result.achievedStreak,
+      'heartsLeft': result.heartsLeft,
+      'completedLevelIds': completedLevelIds,
+      'updatedAt': FieldValue.serverTimestamp(),
+    };
+
+    if (xpDelta > 0) {
+      payload['totalXp'] = FieldValue.increment(xpDelta);
+    }
+
+    await _users.doc(uid).set(payload, SetOptions(merge: true));
   }
 
   Map<String, dynamic> _defaultData(User user) {
@@ -61,6 +74,7 @@ class UserProgressService {
       'totalXp': 0,
       'lastStreak': 0,
       'heartsLeft': 5,
+      'completedLevelIds': <String>[],
       'createdAt': FieldValue.serverTimestamp(),
       'updatedAt': FieldValue.serverTimestamp(),
     };

@@ -1,10 +1,10 @@
 {
   "levelId": "level-3",
-  "levelLabel": "Level Perkenalan Diri",
+  "levelLabel": "Level Keluarga",
   "sectionTitle": "BAGIAN 1, UNIT 3",
-  "lessonTitle": "Memperkenalkan diri dengan kalimat sederhana",
-  "xpToUnlock": 20,
-  "nextObjective": "Membahas keluarga",
+  "lessonTitle": "Membicarakan keluarga inti",
+  "xpToUnlock": 30,
+  "nextObjective": "Menceritakan aktivitas harian",
   "streak": 0,
   "streakGoal": 10,
   "heartPercent": 1.0,
@@ -12,101 +12,105 @@
     {
       "id": "unit3-q1",
       "categoryLabel": "KOSAKATA",
-      "prompt": "Terjemahkan kata ini ke bahasa Inggris:",
-      "newWord": "nama",
-      "hint": "Dipakai di 'My ___ is…'",
+      "prompt": "Terjemahkan kata ini ke bahasa Inggris: 'ibu'",
+      "newWord": "mother",
+      "hint": "Dia yang melahirkanmu.",
       "answerSlots": [
         { "text": "", "locked": false }
       ],
       "wordBank": [
-        "name",
-        "age",
-        "hobby",
-        "place"
+        "mother",
+        "father",
+        "sister",
+        "brother"
       ],
-      "correctAnswer": ["name"],
-      "feedback": "Betul! 'nama' = 'name'."
+      "correctAnswer": ["mother"],
+      "feedback": "Benar! 'ibu' = 'mother'."
     },
     {
       "id": "unit3-q2",
-      "categoryLabel": "PERKENALAN",
-      "prompt": "Terjemahkan: 'Nama saya Andi.'",
-      "newWord": "my",
-      "hint": "Format: My name is ___",
+      "categoryLabel": "KALIMAT SEDERHANA",
+      "prompt": "Terjemahkan: 'Ini ayah saya.'",
+      "newWord": "father",
+      "hint": "Mulai dengan 'This is'.",
       "answerSlots": [
-        { "text": "My", "locked": true },
-        { "text": "", "locked": false },
+        { "text": "This", "locked": true },
         { "text": "is", "locked": true },
-        { "text": "Andi", "locked": true }
+        { "text": "", "locked": false },
+        { "text": "my", "locked": true },
+        { "text": "father", "locked": true }
       ],
       "wordBank": [
-        "name",
-        "age",
-        "from",
-        "live"
+        "father",
+        "mother",
+        "brother"
       ],
-      "correctAnswer": ["My", "name", "is", "Andi"],
-      "feedback": "Nice! 'My name is Andi.'"
+      "correctAnswer": ["This", "is", "my", "father"],
+      "feedback": "Mantap!"
     },
     {
       "id": "unit3-q3",
-      "categoryLabel": "UMUR",
-      "prompt": "Terjemahkan: 'Saya berumur 16 tahun.'",
-      "newWord": "years",
-      "hint": "Format dasar: I am __ years old.",
+      "categoryLabel": "PERTANYAAN",
+      "prompt": "Terjemahkan: 'Apakah dia kakak laki-laki kamu?'",
+      "newWord": "older",
+      "hint": "Gunakan 'Is he your older brother?'",
       "answerSlots": [
-        { "text": "I", "locked": true },
+        { "text": "Is", "locked": true },
+        { "text": "he", "locked": true },
+        { "text": "your", "locked": true },
         { "text": "", "locked": false },
-        { "text": "16", "locked": true },
-        { "text": "", "locked": false }
+        { "text": "brother", "locked": true }
       ],
       "wordBank": [
-        "am",
-        "is",
-        "years",
-        "old"
+        "older",
+        "younger",
+        "little",
+        "friend"
       ],
-      "correctAnswer": ["I", "am", "16", "years", "old"],
-      "feedback": "Bagus! 'I am 16 years old.'"
+      "correctAnswer": ["Is", "he", "your", "older", "brother"],
+      "feedback": "Nice!"
     },
     {
       "id": "unit3-q4",
-      "categoryLabel": "HOBI",
-      "prompt": "Terjemahkan: 'Saya suka membaca.'",
-      "newWord": "like",
-      "hint": "Format: I like __",
+      "categoryLabel": "SUSUN KATA",
+      "prompt": "Susun kalimat: 'Saya punya dua saudara perempuan.'",
+      "newWord": "two",
+      "hint": "Mulai dengan 'I have'.",
       "answerSlots": [
-        { "text": "I", "locked": true },
-        { "text": "", "locked": false }
+        { "text": "", "locked": false },
+        { "text": "", "locked": false },
+        { "text": "two", "locked": true },
+        { "text": "sisters", "locked": true }
       ],
       "wordBank": [
-        "like",
-        "read",
-        "reading",
-        "play"
+        "I",
+        "have",
+        "We",
+        "has"
       ],
-      "correctAnswer": ["I", "like", "reading"],
-      "feedback": "Mantap! 'I like reading.'"
+      "correctAnswer": ["I", "have", "two", "sisters"],
+      "feedback": "Bagus!"
     },
     {
       "id": "unit3-q5",
-      "categoryLabel": "PERKENALAN LENGKAP",
-      "prompt": "Susun kalimat: 'Saya Andi.'",
-      "newWord": "am",
-      "hint": "Gunakan pola: I am ___",
+      "categoryLabel": "DESKRIPSI",
+      "prompt": "Lengkapi: 'My family is ___.'",
+      "newWord": "small",
+      "hint": "Gunakan kata sifat.",
       "answerSlots": [
-        { "text": "I", "locked": true },
-        { "text": "", "locked": false },
-        { "text": "Andi", "locked": true }
+        { "text": "My", "locked": true },
+        { "text": "family", "locked": true },
+        { "text": "is", "locked": true },
+        { "text": "", "locked": false }
       ],
       "wordBank": [
-        "am",
-        "is",
-        "are",
-        "from"
+        "small",
+        "slow",
+        "late",
+        "tall"
       ],
-      "correctAnswer": ["I", "am", "Andi"],
-      "feedback": "Sip! 'I am Andi.'"
+      "correctAnswer": ["My", "family", "is", "small"],
+      "feedback": "Great!"
     }
   ]
 }

@@ -2,6 +2,14 @@
   "courseTitle": "Bahasa Inggris Dasar",
   "levelFiles": [
     "assets/data/levels/level_1.json",
-    "assets/data/levels/level_2.json"
+    "assets/data/levels/level_2.json",
+    "assets/data/levels/level_3.json",
+    "assets/data/levels/level_4.json",
+    "assets/data/levels/level_5.json",
+    "assets/data/levels/level_6.json",
+    "assets/data/levels/level_7.json",
+    "assets/data/levels/level_8.json",
+    "assets/data/levels/level_9.json",
+    "assets/data/levels/level_10.json"
   ]
 }

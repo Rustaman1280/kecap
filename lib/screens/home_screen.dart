@@ -5,7 +5,6 @@ import '../models/lesson_models.dart';
 import '../models/lesson_result.dart';
 import '../models/user_progress.dart';
 import '../repositories/lesson_repository.dart';
-import '../services/auth_service.dart';
 import '../services/user_progress_service.dart';
 import 'lesson_screen.dart';
 
@@ -83,112 +82,133 @@ class _HomeScreenState extends State<HomeScreen> {
       }
       final bool hasNext = levelIndex < totalLevels - 1;
       final int nextIndex = hasNext ? levelIndex + 1 : levelIndex;
+      final UserProgress currentProgress = _userProgress ?? UserProgress.initial(widget.user.uid);
+      final List<String> completedLevels = List<String>.from(currentProgress.completedLevelIds);
+      final bool alreadyCompleted = completedLevels.contains(lesson.levelId);
+      final bool shouldRecordCompletion = !alreadyCompleted;
+
+      if (shouldRecordCompletion) {
+        completedLevels.add(lesson.levelId);
+      }
+
+      final int xpDelta = shouldRecordCompletion ? result.xpEarned : 0;
+
       setState(() {
         _selectedLevelIndex = nextIndex;
         _pendingAutoStart = hasNext;
-        _userProgress = (_userProgress ?? UserProgress.initial(widget.user.uid)).copyWith(
+        _userProgress = currentProgress.copyWith(
           currentLevelIndex: nextIndex,
-          totalXp: (_userProgress?.totalXp ?? 0) + result.xpEarned,
+          totalXp: currentProgress.totalXp + xpDelta,
           lastStreak: result.achievedStreak,
           heartsLeft: result.heartsLeft,
+          completedLevelIds: completedLevels,
         );
       });
       _progressService.updateAfterLesson(
         uid: widget.user.uid,
         newLevelIndex: nextIndex,
         result: result,
+        xpDelta: xpDelta,
+        completedLevelIds: completedLevels,
       );
-      if (!hasNext) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Keren! Kamu sudah menyelesaikan semua level.')),
-        );
-      }
     });
-  }
-
-  void _selectLevel(int index, int total) {
-    if (index < 0 || index >= total) return;
-    setState(() => _selectedLevelIndex = index);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF0E1821),
+      backgroundColor: const Color(0xFF050E16),
       bottomNavigationBar: const _BottomNav(),
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
-          child: FutureBuilder<CourseData>(
-            future: _courseFuture,
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return const Center(child: CircularProgressIndicator());
-              }
+        child: FutureBuilder<CourseData>(
+          future: _courseFuture,
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(child: CircularProgressIndicator());
+            }
 
-              if (snapshot.hasError || !snapshot.hasData) {
-                return _ErrorState(onRetry: _retry, message: 'Gagal memuat soal');
-              }
+            if (snapshot.hasError || !snapshot.hasData) {
+              return _ErrorState(onRetry: _retry, message: 'Gagal memuat soal');
+            }
 
-              if (_progressLoading) {
-                return const Center(child: CircularProgressIndicator());
-              }
+            if (_progressLoading) {
+              return const Center(child: CircularProgressIndicator());
+            }
 
-              if (_progressError != null) {
-                return _ErrorState(onRetry: () => _loadProgress(), message: 'Gagal memuat progres');
-              }
+            if (_progressError != null) {
+              return _ErrorState(onRetry: () => _loadProgress(), message: 'Gagal memuat progres');
+            }
 
-              final progress = _userProgress ?? UserProgress.initial(widget.user.uid);
-              final course = snapshot.data!;
-              if (course.levels.isEmpty) {
-                return _ErrorState(onRetry: _retry);
-              }
+            final progress = _userProgress ?? UserProgress.initial(widget.user.uid);
+            final course = snapshot.data!;
+            if (course.levels.isEmpty) {
+              return _ErrorState(onRetry: _retry);
+            }
 
-              final levels = course.levels;
-              final int selectedIndex = _selectedLevelIndex.clamp(0, levels.length - 1);
-              if (selectedIndex != _selectedLevelIndex) {
-                WidgetsBinding.instance.addPostFrameCallback((_) {
-                  if (!mounted) return;
-                  setState(() => _selectedLevelIndex = selectedIndex);
-                });
-              }
-              final lesson = levels[selectedIndex];
-              if (_pendingAutoStart) {
-                _pendingAutoStart = false;
-                WidgetsBinding.instance.addPostFrameCallback((_) {
-                  if (!mounted) return;
-                  _startLesson(lesson, selectedIndex, levels.length);
-                });
-              }
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  _TopStats(
-                    user: widget.user,
-                    progress: progress,
-                    onSignOut: () => AuthService.instance.signOut(),
-                  ),
-                  const SizedBox(height: 24),
-                  _LevelSelector(
-                    levels: levels,
-                    selectedIndex: selectedIndex,
-                    onSelected: (index) => _selectLevel(index, levels.length),
-                  ),
-                  const SizedBox(height: 16),
-                  _LessonCard(
-                    lesson: lesson,
-                    levelIndex: selectedIndex,
-                    onStart: () => _startLesson(lesson, selectedIndex, levels.length),
-                  ),
-                  const SizedBox(height: 24),
-                  _LearningPath(nextObjective: lesson.nextObjective),
-                ],
-              );
-            },
-          ),
+            final levels = course.levels;
+            final int selectedIndex = _selectedLevelIndex.clamp(0, levels.length - 1);
+            if (selectedIndex != _selectedLevelIndex) {
+              WidgetsBinding.instance.addPostFrameCallback((_) {
+                if (!mounted) return;
+                setState(() => _selectedLevelIndex = selectedIndex);
+              });
+            }
+            final lesson = levels[selectedIndex];
+            if (_pendingAutoStart) {
+              _pendingAutoStart = false;
+              WidgetsBinding.instance.addPostFrameCallback((_) {
+                if (!mounted) return;
+                _startLesson(lesson, selectedIndex, levels.length);
+              });
+            }
+
+            return ListView(
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+              children: [
+                _TopStats(
+                  user: widget.user,
+                  progress: progress,
+                ),
+                const SizedBox(height: 20),
+                _LevelSelector(
+                  levels: levels,
+                  selectedIndex: selectedIndex,
+                  onSelected: (index) => _selectLevel(index, levels.length),
+                ),
+                const SizedBox(height: 16),
+                _LessonCard(
+                  lesson: lesson,
+                  levelIndex: selectedIndex,
+                  onStart: () => _startLesson(lesson, selectedIndex, levels.length),
+                ),
+                const SizedBox(height: 20),
+                _LearningPath(
+                  levels: levels,
+                  selectedIndex: selectedIndex,
+                  onNodeTap: (index) => _handlePathTap(index, levels),
+                ),
+                const SizedBox(height: 32),
+              ],
+            );
+          },
         ),
       ),
     );
+  }
+
+  void _selectLevel(int index, int totalLevels) {
+    if (index < 0 || index >= totalLevels) return;
+    setState(() => _selectedLevelIndex = index);
+  }
+
+  void _handlePathTap(int index, List<LessonData> levels) {
+    if (index < 0 || index >= levels.length) return;
+    final lesson = levels[index];
+    setState(() => _selectedLevelIndex = index);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      _startLesson(lesson, index, levels.length);
+    });
   }
 }
 
@@ -217,61 +237,65 @@ class _ErrorState extends StatelessWidget {
 }
 
 class _TopStats extends StatelessWidget {
-  const _TopStats({required this.user, required this.progress, required this.onSignOut});
+  const _TopStats({required this.user, required this.progress});
 
   final User user;
   final UserProgress progress;
-  final VoidCallback onSignOut;
 
   @override
   Widget build(BuildContext context) {
     final photo = user.photoURL;
-    return Row(
-      children: [
-        CircleAvatar(
-          radius: 28,
-          backgroundColor: const Color(0xFF1A2531),
-          backgroundImage: photo != null && photo.isNotEmpty ? NetworkImage(photo) : null,
-          child: photo == null || photo.isEmpty
-              ? Text(
-                  (user.displayName?.isNotEmpty ?? false) ? user.displayName!.characters.first.toUpperCase() : 'K',
-                  style: const TextStyle(fontWeight: FontWeight.bold),
-                )
-              : null,
+    return Container(
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        gradient: const LinearGradient(
+          colors: [Color(0xFF182534), Color(0xFF0F1824)],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
         ),
-        const SizedBox(width: 12),
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                user.displayName ?? 'Pengguna',
-                style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-              ),
-              const SizedBox(height: 2),
-              Text(
-                user.email ?? '',
-                style: const TextStyle(color: Colors.white60, fontSize: 12),
-              ),
-              const SizedBox(height: 8),
-              Row(
-                children: [
-                  _StatBadge(icon: Icons.star, label: '${progress.totalXp} XP', badgeColor: const Color(0xFF4AC3FF)),
-                  const SizedBox(width: 8),
-                  _StatBadge(icon: Icons.local_fire_department, label: '${progress.lastStreak}', badgeColor: const Color(0xFFFFC845)),
-                  const SizedBox(width: 8),
-                  _StatBadge(icon: Icons.favorite, label: '${progress.heartsLeft}', badgeColor: const Color(0xFFFF77B6)),
-                ],
-              ),
-            ],
+        borderRadius: BorderRadius.circular(28),
+        border: Border.all(color: Colors.white10),
+        boxShadow: const [
+          BoxShadow(color: Color(0x40000000), blurRadius: 24, offset: Offset(0, 12)),
+        ],
+      ),
+      child: Row(
+        children: [
+          CircleAvatar(
+            radius: 30,
+            backgroundColor: const Color(0xFF1A2531),
+            backgroundImage: photo != null && photo.isNotEmpty ? NetworkImage(photo) : null,
+            child: photo == null || photo.isEmpty
+                ? Text(
+                    (user.displayName?.isNotEmpty ?? false) ? user.displayName!.characters.first.toUpperCase() : 'K',
+                    style: const TextStyle(fontWeight: FontWeight.bold),
+                  )
+                : null,
           ),
-        ),
-        IconButton(
-          onPressed: onSignOut,
-          icon: const Icon(Icons.logout),
-          tooltip: 'Keluar',
-        ),
-      ],
+          const SizedBox(width: 16),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  user.displayName ?? 'Pengguna',
+                  style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 18),
+                ),
+                const SizedBox(height: 12),
+                Row(
+                  children: [
+                    _StatBadge(icon: Icons.star, label: '${progress.totalXp} XP', badgeColor: const Color(0xFF4AC3FF)),
+                    const SizedBox(width: 8),
+                    _StatBadge(icon: Icons.local_fire_department, label: '${progress.lastStreak}', badgeColor: const Color(0xFFFFC845)),
+                    const SizedBox(width: 8),
+                    _StatBadge(icon: Icons.favorite, label: '${progress.heartsLeft}', badgeColor: const Color(0xFFFF77B6)),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
@@ -444,47 +468,75 @@ class _ProgressRing extends StatelessWidget {
 }
 
 class _LearningPath extends StatelessWidget {
-  const _LearningPath({required this.nextObjective});
+  const _LearningPath({
+    required this.levels,
+    required this.selectedIndex,
+    required this.onNodeTap,
+  });
 
-  final String nextObjective;
+  final List<LessonData> levels;
+  final int selectedIndex;
+  final ValueChanged<int> onNodeTap;
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
+    if (levels.isEmpty) {
+      return const SizedBox.shrink();
+    }
+    final int safeIndex = selectedIndex.clamp(0, levels.length - 1);
+    final LessonData highlighted = levels[safeIndex];
+    const int maxNodes = 10;
+
+    return Container(
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        color: const Color(0xFF0F1A24),
+        borderRadius: BorderRadius.circular(28),
+        border: Border.all(color: Colors.white10),
+      ),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Expanded(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: const [
-                _PathStep(
-                  node: PathNode(
-                    label: 'Unit saat ini',
-                    icon: Icons.star,
-                    active: true,
-                    ring: true,
-                  ),
+          Row(
+            children: const [
+              Icon(Icons.route_outlined, color: Colors.white70),
+              SizedBox(width: 8),
+              Text(
+                'Learning Path',
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w700,
                 ),
-                _PathStep(
-                  node: PathNode(icon: Icons.star_border, active: false),
-                ),
-                _PathStep(
-                  node: PathNode(icon: Icons.inventory_2, active: false),
-                ),
-                _PathStep(
-                  node: PathNode(icon: Icons.star_border, active: false),
-                ),
-                _PathStep(
-                  node: PathNode(icon: Icons.emoji_nature, active: false),
-                  isLast: true,
-                ),
-              ],
-            ),
+              ),
+            ],
           ),
-          const SizedBox(height: 12),
+          const SizedBox(height: 6),
           Text(
-            nextObjective,
+            highlighted.nextObjective,
             style: const TextStyle(color: Colors.white54),
+          ),
+          const SizedBox(height: 20),
+          ListView.separated(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            itemCount: maxNodes,
+            separatorBuilder: (_, __) => const SizedBox(height: 12),
+            itemBuilder: (context, index) {
+              final bool hasLesson = index < levels.length;
+              final lesson = hasLesson ? levels[index] : null;
+              final bool isActive = hasLesson && index == safeIndex;
+              final bool isCompleted = hasLesson && index < safeIndex;
+              final bool isLocked = !hasLesson || index > safeIndex;
+              return _PathStep(
+                lesson: lesson,
+                index: index,
+                isActive: isActive,
+                isCompleted: isCompleted,
+                isLocked: isLocked,
+                isLast: index == maxNodes - 1,
+                onTap: (!hasLesson || isLocked) ? null : () => onNodeTap(index),
+              );
+            },
           ),
         ],
       ),
@@ -493,79 +545,188 @@ class _LearningPath extends StatelessWidget {
 }
 
 class _PathStep extends StatelessWidget {
-  const _PathStep({required this.node, this.isLast = false});
+  const _PathStep({
+    required this.lesson,
+    required this.index,
+    required this.isActive,
+    required this.isCompleted,
+    required this.isLocked,
+    required this.isLast,
+    required this.onTap,
+  });
 
-  final PathNode node;
+  final LessonData? lesson;
+  final int index;
+  final bool isActive;
+  final bool isCompleted;
+  final bool isLocked;
   final bool isLast;
+  final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        node,
-        if (!isLast)
-          Container(
-            width: 4,
-            height: 40,
-            margin: const EdgeInsets.only(top: 6, bottom: 6),
-            color: Colors.white12,
+    final Color accent = isActive
+        ? const Color(0xFFFFB341)
+        : (isCompleted ? const Color(0xFF55DF5D) : Colors.white24);
+
+    final bool placeholder = lesson == null;
+    final String levelChip = lesson?.levelLabel ?? 'LEVEL ${index + 1}';
+    final String lessonTitle = lesson?.lessonTitle ?? 'Segera hadir';
+    final String lessonMeta = placeholder
+        ? 'Materi akan terbuka nanti'
+        : '${lesson!.questions.length} soal • ${lesson!.xpToUnlock} XP';
+
+    return GestureDetector(
+      onTap: onTap,
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Column(
+            children: [
+              _PathBubble(
+                index: index,
+                isActive: isActive,
+                isCompleted: isCompleted,
+                isLocked: isLocked,
+              ),
+              if (!isLast)
+                Container(
+                  width: 3,
+                  height: 48,
+                  margin: const EdgeInsets.symmetric(vertical: 4),
+                  decoration: BoxDecoration(
+                    color: Colors.white10,
+                    borderRadius: BorderRadius.circular(999),
+                  ),
+                ),
+            ],
           ),
-      ],
+          const SizedBox(width: 12),
+          Expanded(
+            child: Container(
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: const Color(0xFF111B27),
+                borderRadius: BorderRadius.circular(20),
+                border: Border.all(color: accent.withOpacity(isLocked ? 0.2 : 0.4)),
+                boxShadow: [
+                  if (isActive)
+                    BoxShadow(
+                      color: accent.withOpacity(0.25),
+                      blurRadius: 18,
+                      offset: const Offset(0, 10),
+                    ),
+                ],
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    levelChip.toUpperCase(),
+                    style: const TextStyle(
+                      fontSize: 12,
+                      letterSpacing: 1.2,
+                      color: Colors.white60,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                  const SizedBox(height: 6),
+                  Text(
+                    lessonTitle,
+                    style: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    lessonMeta,
+                    style: TextStyle(
+                      color: placeholder || isLocked ? Colors.white30 : Colors.white54,
+                      fontSize: 13,
+                    ),
+                  ),
+                  if (isLocked)
+                    const Padding(
+                      padding: EdgeInsets.only(top: 6),
+                      child: Text(
+                        'Tuntaskan level sebelumnya',
+                        style: TextStyle(color: Colors.white30, fontSize: 12),
+                      ),
+                    ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
 
-class PathNode extends StatelessWidget {
-  const PathNode({
-    required this.icon,
-    this.label,
-    this.active = false,
-    this.ring = false,
+class _PathBubble extends StatelessWidget {
+  const _PathBubble({
+    required this.index,
+    required this.isActive,
+    required this.isCompleted,
+    required this.isLocked,
   });
 
-  final IconData icon;
-  final String? label;
-  final bool active;
-  final bool ring;
+  final int index;
+  final bool isActive;
+  final bool isCompleted;
+  final bool isLocked;
 
   @override
   Widget build(BuildContext context) {
-    final Color activeColor = const Color(0xFF55DF5D);
-    final Color inactiveColor = const Color(0xFF1C2835);
-    final Color iconColor = active ? Colors.white : Colors.white54;
+    final Gradient? gradient = isActive
+        ? const LinearGradient(colors: [Color(0xFFFFB341), Color(0xFFFF855E)])
+        : null;
+    final Color bgColor = isCompleted
+        ? const Color(0xFF55DF5D)
+        : (isLocked ? const Color(0xFF141E29) : const Color(0xFF1E2A36));
+    final Color iconColor = isActive || isCompleted ? Colors.white : (isLocked ? Colors.white24 : Colors.white54);
 
-    return SizedBox(
-      height: 90,
+    return AnimatedContainer(
+      duration: const Duration(milliseconds: 250),
+      width: 64,
+      height: 64,
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        gradient: gradient,
+        color: gradient == null ? bgColor : null,
+        border: Border.all(color: Colors.white24, width: 2),
+        boxShadow: [
+          if (isActive)
+            const BoxShadow(
+              color: Color(0x40FFB341),
+              blurRadius: 18,
+              offset: Offset(0, 6),
+            ),
+        ],
+      ),
       child: Stack(
         alignment: Alignment.center,
         children: [
-          if (ring)
-            Container(
-              width: 88,
-              height: 88,
+          Icon(Icons.star_rounded, color: iconColor, size: 30),
+          Positioned(
+            bottom: 10,
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
               decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                border: Border.all(color: activeColor, width: 6),
+                color: Colors.black.withOpacity(0.35),
+                borderRadius: BorderRadius.circular(999),
               ),
-            ),
-          Container(
-            width: 68,
-            height: 68,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              color: active ? activeColor : inactiveColor,
-              border: Border.all(color: Colors.white10, width: 2),
-            ),
-            child: Icon(icon, color: iconColor, size: 30),
-          ),
-          if (label != null)
-            Positioned(
-              bottom: 0,
               child: Text(
-                label!,
-                style: const TextStyle(fontSize: 12, color: Colors.white70),
+                '${index + 1}',
+                style: TextStyle(
+                  fontSize: 11,
+                  fontWeight: FontWeight.w700,
+                  color: isLocked ? Colors.white54 : Colors.white,
+                ),
               ),
             ),
+          ),
         ],
       ),
     );
@@ -583,11 +744,10 @@ class _BottomNav extends StatelessWidget {
       selectedItemColor: const Color(0xFFFFB341),
       unselectedItemColor: Colors.white54,
       items: const [
-        BottomNavigationBarItem(icon: Icon(Icons.home), label: ''),
-        BottomNavigationBarItem(icon: Icon(Icons.leaderboard), label: ''),
-        BottomNavigationBarItem(icon: Icon(Icons.emoji_events), label: ''),
-        BottomNavigationBarItem(icon: Icon(Icons.favorite), label: ''),
-        BottomNavigationBarItem(icon: Icon(Icons.public), label: ''),
+        BottomNavigationBarItem(icon: Icon(Icons.home_filled), label: 'Home'),
+        BottomNavigationBarItem(icon: Icon(Icons.leaderboard_outlined), label: 'Leaderboard'),
+        BottomNavigationBarItem(icon: Icon(Icons.smart_toy_outlined), label: 'Menu AI'),
+        BottomNavigationBarItem(icon: Icon(Icons.person_outline), label: 'Profile'),
       ],
     );
   }
