@@ -48,23 +48,25 @@ class AiHubScreen extends StatelessWidget {
       return;
     }
     if (index == 1) {
-      Navigator.of(context).push(
-        MaterialPageRoute(
-          builder: (_) => LeaderboardScreen(user: user),
-        ),
-      );
+      _pushNoTransition(context, LeaderboardScreen(user: user));
       return;
     }
     if (index == 3) {
-      Navigator.of(context).push(
-        MaterialPageRoute(
-          builder: (_) => ProfileScreen(user: user),
-        ),
-      );
+      _pushNoTransition(context, ProfileScreen(user: user));
       return;
     }
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(content: Text('Fitur segera hadir')),
+    );
+  }
+
+  void _pushNoTransition(BuildContext context, Widget page) {
+    Navigator.of(context).push(
+      PageRouteBuilder<void>(
+        pageBuilder: (_, __, ___) => page,
+        transitionDuration: Duration.zero,
+        reverseTransitionDuration: Duration.zero,
+      ),
     );
   }
 }

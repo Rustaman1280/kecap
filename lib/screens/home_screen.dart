@@ -221,27 +221,15 @@ class _HomeScreenState extends State<HomeScreen> {
   void _handleBottomNavTap(int index) {
     if (index == 0) return;
     if (index == 1) {
-      Navigator.of(context).push(
-        MaterialPageRoute(
-          builder: (_) => LeaderboardScreen(user: widget.user),
-        ),
-      );
+      _pushNoTransition(LeaderboardScreen(user: widget.user));
       return;
     }
     if (index == 2) {
-      Navigator.of(context).push(
-        MaterialPageRoute(
-          builder: (_) => AiHubScreen(user: widget.user),
-        ),
-      );
+      _pushNoTransition(AiHubScreen(user: widget.user));
       return;
     }
     if (index == 3) {
-      Navigator.of(context).push(
-        MaterialPageRoute(
-          builder: (_) => ProfileScreen(user: widget.user),
-        ),
-      );
+      _pushNoTransition(ProfileScreen(user: widget.user));
       return;
     }
 
@@ -249,6 +237,16 @@ class _HomeScreenState extends State<HomeScreen> {
       const SnackBar(
         content: Text('Menu ini sedang disiapkan'),
         duration: Duration(seconds: 2),
+      ),
+    );
+  }
+
+  void _pushNoTransition(Widget page) {
+    Navigator.of(context).push(
+      PageRouteBuilder<void>(
+        pageBuilder: (_, __, ___) => page,
+        transitionDuration: Duration.zero,
+        reverseTransitionDuration: Duration.zero,
       ),
     );
   }

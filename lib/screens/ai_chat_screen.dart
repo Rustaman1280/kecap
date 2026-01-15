@@ -19,7 +19,7 @@ class AiChatScreen extends StatefulWidget {
 class _AiChatScreenState extends State<AiChatScreen> {
   final List<AiMessage> _messages = <AiMessage>[
     const AiMessage(
-      text: 'Hai! Aku Gemini siap bantu belajar bahasa Sunda. Tanyakan apa saja 🎓',
+      text: 'Hey there! I am Gemini, your chill English study buddy. Ask me anything and let us level up your English together 🎓',
       isUser: false,
     ),
   ];
@@ -146,24 +146,26 @@ class _AiChatScreenState extends State<AiChatScreen> {
       return;
     }
     if (index == 1) {
-      Navigator.of(context).push(
-        MaterialPageRoute(
-          builder: (_) => LeaderboardScreen(user: widget.user),
-        ),
-      );
+      _pushNoTransition(LeaderboardScreen(user: widget.user));
       return;
     }
     if (index == 3) {
-      Navigator.of(context).push(
-        MaterialPageRoute(
-          builder: (_) => ProfileScreen(user: widget.user),
-        ),
-      );
+      _pushNoTransition(ProfileScreen(user: widget.user));
       return;
     }
 
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(content: Text('Fitur segera hadir')),
+    );
+  }
+
+  void _pushNoTransition(Widget page) {
+    Navigator.of(context).push(
+      PageRouteBuilder<void>(
+        pageBuilder: (_, __, ___) => page,
+        transitionDuration: Duration.zero,
+        reverseTransitionDuration: Duration.zero,
+      ),
     );
   }
 }

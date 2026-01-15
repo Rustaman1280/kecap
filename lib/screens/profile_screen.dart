@@ -93,19 +93,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
       return;
     }
     if (index == 1) {
-      Navigator.of(context).push(
-        MaterialPageRoute(
-          builder: (_) => LeaderboardScreen(user: widget.user),
-        ),
-      );
+      _pushNoTransition(LeaderboardScreen(user: widget.user));
       return;
     }
     if (index == 2) {
-      Navigator.of(context).push(
-        MaterialPageRoute(
-          builder: (_) => AiHubScreen(user: widget.user),
-        ),
-      );
+      _pushNoTransition(AiHubScreen(user: widget.user));
       return;
     }
   }
@@ -120,6 +112,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
       setState(() => _signingOut = false);
       Navigator.of(context).popUntil((route) => route.isFirst);
     }
+  }
+
+  void _pushNoTransition(Widget page) {
+    Navigator.of(context).push(
+      PageRouteBuilder<void>(
+        pageBuilder: (_, __, ___) => page,
+        transitionDuration: Duration.zero,
+        reverseTransitionDuration: Duration.zero,
+      ),
+    );
   }
 }
 
