@@ -120,6 +120,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final double hPad = _horizontalPadding(context);
+    const double maxWidth = 900;
     return Scaffold(
       backgroundColor: const Color(0xFF050E16),
       bottomNavigationBar: AppBottomNav(
@@ -169,33 +171,38 @@ class _HomeScreenState extends State<HomeScreen> {
               });
             }
 
-            return ListView(
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
-              children: [
-                _TopStats(
-                  user: widget.user,
-                  progress: progress,
+            return Center(
+              child: ConstrainedBox(
+                constraints: const BoxConstraints(maxWidth: maxWidth),
+                child: ListView(
+                  padding: EdgeInsets.symmetric(horizontal: hPad, vertical: 16),
+                  children: [
+                    _TopStats(
+                      user: widget.user,
+                      progress: progress,
+                    ),
+                    const SizedBox(height: 20),
+                    _LevelSelector(
+                      levels: levels,
+                      selectedIndex: selectedIndex,
+                      onSelected: (index) => _selectLevel(index, levels.length),
+                    ),
+                    const SizedBox(height: 16),
+                    _LessonCard(
+                      lesson: lesson,
+                      levelIndex: selectedIndex,
+                      onStart: () => _startLesson(lesson, selectedIndex, levels.length),
+                    ),
+                    const SizedBox(height: 20),
+                    _LearningPath(
+                      levels: levels,
+                      selectedIndex: selectedIndex,
+                      onNodeTap: (index) => _handlePathTap(index, levels),
+                    ),
+                    const SizedBox(height: 32),
+                  ],
                 ),
-                const SizedBox(height: 20),
-                _LevelSelector(
-                  levels: levels,
-                  selectedIndex: selectedIndex,
-                  onSelected: (index) => _selectLevel(index, levels.length),
-                ),
-                const SizedBox(height: 16),
-                _LessonCard(
-                  lesson: lesson,
-                  levelIndex: selectedIndex,
-                  onStart: () => _startLesson(lesson, selectedIndex, levels.length),
-                ),
-                const SizedBox(height: 20),
-                _LearningPath(
-                  levels: levels,
-                  selectedIndex: selectedIndex,
-                  onNodeTap: (index) => _handlePathTap(index, levels),
-                ),
-                const SizedBox(height: 32),
-              ],
+              ),
             );
           },
         ),
@@ -250,6 +257,15 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
+
+  double _horizontalPadding(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
+    if (width < 360) return 12;
+    if (width < 480) return 14;
+    if (width < 720) return 16;
+    if (width < 1080) return 18;
+    return 20;
+  }
 }
 
 class _ErrorState extends StatelessWidget {
@@ -285,8 +301,11 @@ class _TopStats extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final photo = user.photoURL;
+    final width = MediaQuery.of(context).size.width;
+    final double avatarRadius = width < 360 ? 26 : 30;
+    final double cardPadding = width < 360 ? 16 : 20;
     return Container(
-      padding: const EdgeInsets.all(20),
+      padding: EdgeInsets.all(cardPadding),
       decoration: BoxDecoration(
         gradient: const LinearGradient(
           colors: [Color(0xFF182534), Color(0xFF0F1824)],
@@ -302,7 +321,7 @@ class _TopStats extends StatelessWidget {
       child: Row(
         children: [
           CircleAvatar(
-            radius: 30,
+            radius: avatarRadius,
             backgroundColor: const Color(0xFF1A2531),
             backgroundImage: photo != null && photo.isNotEmpty ? NetworkImage(photo) : null,
             child: photo == null || photo.isEmpty
@@ -322,12 +341,12 @@ class _TopStats extends StatelessWidget {
                   style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 18),
                 ),
                 const SizedBox(height: 12),
-                Row(
+                Wrap(
+                  spacing: 8,
+                  runSpacing: 8,
                   children: [
                     _StatBadge(icon: Icons.star, label: '${progress.totalXp} XP', badgeColor: const Color(0xFF4AC3FF)),
-                    const SizedBox(width: 8),
                     _StatBadge(icon: Icons.local_fire_department, label: '${progress.lastStreak}', badgeColor: const Color(0xFFFFC845)),
-                    const SizedBox(width: 8),
                     _StatBadge(icon: Icons.favorite, label: '${progress.heartsLeft}', badgeColor: const Color(0xFFFF77B6)),
                   ],
                 ),
@@ -353,8 +372,11 @@ class _StatBadge extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
+    final double hPad = width < 360 ? 10 : 12;
+    final double vPad = width < 360 ? 6 : 8;
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+      padding: EdgeInsets.symmetric(horizontal: hPad, vertical: vPad),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(18),
         color: badgeColor ?? const Color(0xFF1A2531),
@@ -605,9 +627,11 @@ class _PathStep extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
+    final bool compact = width < 360;
     final Color accent = isActive
-        ? const Color(0xFFFFB341)
-        : (isCompleted ? const Color(0xFF55DF5D) : Colors.white24);
+      ? const Color(0xFFFFB341)
+      : (isCompleted ? const Color(0xFF55DF5D) : Colors.white24);
 
     final bool placeholder = lesson == null;
     final String levelChip = lesson?.levelLabel ?? 'LEVEL ${index + 1}';
@@ -632,8 +656,8 @@ class _PathStep extends StatelessWidget {
               if (!isLast)
                 Container(
                   width: 3,
-                  height: 48,
-                  margin: const EdgeInsets.symmetric(vertical: 4),
+                  height: compact ? 36 : 48,
+                  margin: EdgeInsets.symmetric(vertical: compact ? 2 : 4),
                   decoration: BoxDecoration(
                     color: Colors.white10,
                     borderRadius: BorderRadius.circular(999),
@@ -644,7 +668,7 @@ class _PathStep extends StatelessWidget {
           const SizedBox(width: 12),
           Expanded(
             child: Container(
-              padding: const EdgeInsets.all(16),
+              padding: EdgeInsets.all(compact ? 12 : 16),
               decoration: BoxDecoration(
                 color: const Color(0xFF111B27),
                 borderRadius: BorderRadius.circular(20),
@@ -719,6 +743,9 @@ class _PathBubble extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
+    final bool compact = width < 360;
+    final double size = compact ? 54 : 64;
     final Gradient? gradient = isActive
         ? const LinearGradient(colors: [Color(0xFFFFB341), Color(0xFFFF855E)])
         : null;
@@ -729,8 +756,8 @@ class _PathBubble extends StatelessWidget {
 
     return AnimatedContainer(
       duration: const Duration(milliseconds: 250),
-      width: 64,
-      height: 64,
+      width: size,
+      height: size,
       decoration: BoxDecoration(
         shape: BoxShape.circle,
         gradient: gradient,
@@ -748,11 +775,11 @@ class _PathBubble extends StatelessWidget {
       child: Stack(
         alignment: Alignment.center,
         children: [
-          Icon(Icons.star_rounded, color: iconColor, size: 30),
+          Icon(Icons.star_rounded, color: iconColor, size: compact ? 26 : 30),
           Positioned(
-            bottom: 10,
+            bottom: compact ? 8 : 10,
             child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+              padding: EdgeInsets.symmetric(horizontal: compact ? 6 : 8, vertical: 2),
               decoration: BoxDecoration(
                 color: Colors.black.withOpacity(0.35),
                 borderRadius: BorderRadius.circular(999),
@@ -760,7 +787,7 @@ class _PathBubble extends StatelessWidget {
               child: Text(
                 '${index + 1}',
                 style: TextStyle(
-                  fontSize: 11,
+                  fontSize: compact ? 10 : 11,
                   fontWeight: FontWeight.w700,
                   color: isLocked ? Colors.white54 : Colors.white,
                 ),

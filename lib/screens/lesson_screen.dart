@@ -1,4 +1,6 @@
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_tts/flutter_tts.dart';
 
 import '../models/lesson_models.dart';
 import '../models/lesson_result.dart';
@@ -23,9 +25,17 @@ class _LessonScreenState extends State<LessonScreen> {
   static const int _maxHearts = 5;
   int _heartsLeft = _maxHearts;
   int _streak = 0;
+  static const int _bonusThreshold = 5;
+  static const int _bonusXpValue = 10;
+  int _bonusXp = 0;
+  bool _bonusAwarded = false;
 
   bool _checked = false;
   bool _isCorrect = false;
+
+  late final FlutterTts _tts;
+  bool _ttsReady = false;
+  late final AudioPlayer _sfxPlayer;
 
   QuestionData get _question => widget.lesson.questions[_currentQuestionIndex];
   bool get _isLastQuestion => _currentQuestionIndex >= widget.lesson.questions.length - 1;
@@ -42,14 +52,30 @@ class _LessonScreenState extends State<LessonScreen> {
     _streak = 0;
     _heartsLeft = _maxHearts;
     _hydrateQuestionState();
+    _initTts();
+    _sfxPlayer = AudioPlayer()..setReleaseMode(ReleaseMode.stop);
+  }
+
+  Future<void> _initTts() async {
+    _tts = FlutterTts();
+    await _tts.setLanguage('id-ID');
+    await _tts.setSpeechRate(0.45);
+    await _tts.setPitch(1.0);
+    await _tts.setVolume(1.0);
+    if (!mounted) return;
+    setState(() {
+      _ttsReady = true;
+    });
   }
 
   void _handleExit({bool completed = false}) {
+    final int baseXp = completed ? widget.lesson.xpToUnlock : 0;
+    final int totalXpEarned = baseXp + _bonusXp;
     Navigator.of(context).pop(
       LessonResult(
         completed: completed,
         lessonId: widget.lesson.levelId,
-        xpEarned: completed ? widget.lesson.xpToUnlock : 0,
+        xpEarned: totalXpEarned,
         heartsLeft: _heartsLeft,
         achievedStreak: _streak,
       ),
@@ -73,6 +99,25 @@ class _LessonScreenState extends State<LessonScreen> {
     _slotCorrectState = List<bool?>.filled(question.answerSlots.length, null);
     _checked = false;
     _isCorrect = false;
+    _bonusXp = 0;
+    _bonusAwarded = false;
+  }
+
+  Future<void> _speakCurrentWord() async {
+    if (!_ttsReady) return;
+    final text = _question.newWord.trim();
+    if (text.isEmpty) return;
+    await _tts.stop();
+    await _tts.speak(text);
+  }
+
+  Future<void> _playSfx(String assetName) async {
+    try {
+      await _sfxPlayer.stop();
+      await _sfxPlayer.play(AssetSource('audio/$assetName'));
+    } catch (_) {
+      // Ignore SFX failures to avoid blocking UX.
+    }
   }
 
   void _handleChoiceTap(int index) {
@@ -187,6 +232,21 @@ class _LessonScreenState extends State<LessonScreen> {
       _heartsLeft = updatedHearts;
     });
 
+    if (isAllCorrect) {
+      // Play success sound; if this is the last question, celebrate once here.
+      _playSfx('correct.wav');
+
+      if (!_bonusAwarded && updatedStreak >= _bonusThreshold) {
+        _bonusAwarded = true;
+        _bonusXp += _bonusXpValue;
+        _playSfx('complete.wav');
+        _showBonusDialog();
+      }
+    } else {
+      // Alert sound on incorrect.
+      _playSfx('wrong.wav');
+    }
+
     if (!isAllCorrect && updatedHearts <= 0) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Hati habis! Keluar lalu coba ulang pelajaran.')),
@@ -196,6 +256,8 @@ class _LessonScreenState extends State<LessonScreen> {
 
   void _advanceOrFinish() {
     if (_isLastQuestion) {
+      // Victory sound when finishing lesson.
+      _playSfx('complete.wav');
       _handleExit(completed: true);
       return;
     }
@@ -204,6 +266,41 @@ class _LessonScreenState extends State<LessonScreen> {
       _currentQuestionIndex += 1;
       _hydrateQuestionState();
     });
+  }
+
+  @override
+  void dispose() {
+    _tts.stop();
+    _sfxPlayer.dispose();
+    super.dispose();
+  }
+
+  void _showBonusDialog() {
+    showDialog<void>(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) {
+        return AlertDialog(
+          backgroundColor: const Color(0xFF0F1823),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+          title: const Text('Selamat!', style: TextStyle(fontWeight: FontWeight.bold)),
+          content: Text('Kamu menjawab $_bonusThreshold soal benar berturut-turut. Bonus XP +$_bonusXpValue'),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: const Text('Lanjut'),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+                _handleExit();
+              },
+              child: const Text('Keluar'),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   Color _slotColor(int index) {
@@ -236,6 +333,8 @@ class _LessonScreenState extends State<LessonScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final double hPad = _horizontalPadding(context);
+    const double maxWidth = 760;
     return WillPopScope(
       onWillPop: () async {
         _handleExit();
@@ -244,103 +343,123 @@ class _LessonScreenState extends State<LessonScreen> {
       child: Scaffold(
         backgroundColor: const Color(0xFF08111A),
         body: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              _LessonTopBar(
-                heartsLeft: _heartsLeft,
-                maxHearts: _maxHearts,
-                onExit: _handleExit,
-              ),
-              const SizedBox(height: 16),
-              _StreakIndicator(current: _streak, goal: widget.lesson.streakGoal),
-              const SizedBox(height: 24),
-              _LessonHeader(category: _question.categoryLabel, prompt: _question.prompt),
-              const SizedBox(height: 8),
-              Text(
-                'Soal ${_currentQuestionIndex + 1} dari ${widget.lesson.questions.length}',
-                style: const TextStyle(color: Colors.white54, fontWeight: FontWeight.w600),
-              ),
-              const SizedBox(height: 24),
-              Expanded(
-                child: SingleChildScrollView(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      _CharacterSection(newWord: _question.newWord, hint: _question.hint),
-                      const SizedBox(height: 24),
-                      _AnswerSlotsView(
-                        slots: _slots,
-                        locked: _slotLocked,
-                        slotColor: _slotColor,
-                        slotBorder: _slotBorder,
-                        onSlotTap: _handleSlotTap,
-                        checked: _checked,
-                      ),
-                      if (_checked && !_isCorrect) ...[
-                        const SizedBox(height: 12),
-                        Text(
-                          'Jawaban benar: ${_question.correctAnswer.join(' ')}',
-                          style: const TextStyle(color: Colors.white54),
+          child: Center(
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: maxWidth),
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: hPad, vertical: 16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    _LessonTopBar(
+                      heartsLeft: _heartsLeft,
+                      maxHearts: _maxHearts,
+                      onExit: _handleExit,
+                      onSpeak: _speakCurrentWord,
+                    ),
+                    const SizedBox(height: 16),
+                    _StreakIndicator(current: _streak, goal: widget.lesson.streakGoal),
+                    const SizedBox(height: 24),
+                    _LessonHeader(category: _question.categoryLabel, prompt: _question.prompt),
+                    const SizedBox(height: 8),
+                    Text(
+                      'Soal ${_currentQuestionIndex + 1} dari ${widget.lesson.questions.length}',
+                      style: const TextStyle(color: Colors.white54, fontWeight: FontWeight.w600),
+                    ),
+                    const SizedBox(height: 24),
+                    Expanded(
+                      child: SingleChildScrollView(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            _CharacterSection(
+                              newWord: _question.newWord,
+                              hint: _question.hint,
+                              onSpeak: _speakCurrentWord,
+                            ),
+                            const SizedBox(height: 24),
+                            _AnswerSlotsView(
+                              slots: _slots,
+                              locked: _slotLocked,
+                              slotColor: _slotColor,
+                              slotBorder: _slotBorder,
+                              onSlotTap: _handleSlotTap,
+                              checked: _checked,
+                            ),
+                            if (_checked && !_isCorrect) ...[
+                              const SizedBox(height: 12),
+                              Text(
+                                'Jawaban benar: ${_question.correctAnswer.join(' ')}',
+                                style: const TextStyle(color: Colors.white54),
+                              ),
+                            ],
+                            const SizedBox(height: 24),
+                            _ChoiceGrid(
+                              choices: _question.wordBank,
+                              used: _choiceUsed,
+                              onTap: _handleChoiceTap,
+                              checked: _checked,
+                            ),
+                          ],
                         ),
-                      ],
-                      const SizedBox(height: 24),
-                      _ChoiceGrid(
-                        choices: _question.wordBank,
-                        used: _choiceUsed,
-                        onTap: _handleChoiceTap,
-                        checked: _checked,
                       ),
-                    ],
-                  ),
+                    ),
+                    const SizedBox(height: 16),
+                    AnimatedSwitcher(
+                      duration: const Duration(milliseconds: 400),
+                      transitionBuilder: (child, animation) {
+                        final curved = CurvedAnimation(parent: animation, curve: Curves.easeOutBack);
+                        return SlideTransition(
+                          position: Tween<Offset>(begin: const Offset(0, 1), end: Offset.zero).animate(curved),
+                          child: FadeTransition(opacity: animation, child: child),
+                        );
+                      },
+                      child: _checked
+                          ? _FeedbackBanner(
+                              key: const ValueKey('feedback-popup'),
+                              message: _feedbackMessage(),
+                              success: _checked && _isCorrect,
+                            )
+                          : const SizedBox.shrink(),
+                    ),
+                    const SizedBox(height: 12),
+                    _PrimaryButton(
+                      label: !_checked
+                          ? 'PERIKSA'
+                          : (_isCorrect
+                              ? (_isLastQuestion ? 'SELESAI' : 'LANJUTKAN')
+                              : 'COBA LAGI'),
+                      onPressed: !_checked
+                          ? _checkAnswer
+                          : (_isCorrect ? _advanceOrFinish : _resetAttempt),
+                    ),
+                  ],
                 ),
               ),
-              const SizedBox(height: 16),
-              AnimatedSwitcher(
-                duration: const Duration(milliseconds: 400),
-                transitionBuilder: (child, animation) {
-                  final curved = CurvedAnimation(parent: animation, curve: Curves.easeOutBack);
-                  return SlideTransition(
-                    position: Tween<Offset>(begin: const Offset(0, 1), end: Offset.zero).animate(curved),
-                    child: FadeTransition(opacity: animation, child: child),
-                  );
-                },
-                child: _checked
-                    ? _FeedbackBanner(
-                        key: const ValueKey('feedback-popup'),
-                        message: _feedbackMessage(),
-                        success: _checked && _isCorrect,
-                      )
-                    : const SizedBox.shrink(),
-              ),
-              const SizedBox(height: 12),
-              _PrimaryButton(
-                label: !_checked
-                    ? 'PERIKSA'
-                    : (_isCorrect
-                        ? (_isLastQuestion ? 'SELESAI' : 'LANJUTKAN')
-                        : 'COBA LAGI'),
-                onPressed: !_checked
-                    ? _checkAnswer
-                    : (_isCorrect ? _advanceOrFinish : _resetAttempt),
-              ),
-            ],
+            ),
           ),
         ),
       ),
-    ),
     );
+  }
+
+  double _horizontalPadding(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
+    if (width < 360) return 12;
+    if (width < 480) return 14;
+    if (width < 720) return 16;
+    if (width < 1080) return 18;
+    return 20;
   }
 }
 
 class _LessonTopBar extends StatelessWidget {
-  const _LessonTopBar({required this.heartsLeft, required this.maxHearts, required this.onExit});
+  const _LessonTopBar({required this.heartsLeft, required this.maxHearts, required this.onExit, required this.onSpeak});
 
   final int heartsLeft;
   final int maxHearts;
   final VoidCallback onExit;
+  final VoidCallback onSpeak;
 
   @override
   Widget build(BuildContext context) {
@@ -348,7 +467,7 @@ class _LessonTopBar extends StatelessWidget {
       children: [
         _CircleIcon(icon: Icons.close, onTap: onExit),
         const SizedBox(width: 12),
-        const _CircleIcon(icon: Icons.volume_up),
+        _CircleIcon(icon: Icons.volume_up, onTap: onSpeak),
         const Spacer(),
         AnimatedSwitcher(
           duration: const Duration(milliseconds: 350),
@@ -487,10 +606,11 @@ class _LessonHeader extends StatelessWidget {
 }
 
 class _CharacterSection extends StatelessWidget {
-  const _CharacterSection({required this.newWord, required this.hint});
+  const _CharacterSection({required this.newWord, required this.hint, required this.onSpeak});
 
   final String newWord;
   final String hint;
+  final VoidCallback onSpeak;
 
   @override
   Widget build(BuildContext context) {
@@ -499,7 +619,7 @@ class _CharacterSection extends StatelessWidget {
       children: [
         const _CharacterCard(),
         const SizedBox(width: 16),
-        Expanded(child: _SpeechBubble(newWord: newWord, hint: hint)),
+        Expanded(child: _SpeechBubble(newWord: newWord, hint: hint, onSpeak: onSpeak)),
       ],
     );
   }
@@ -534,10 +654,11 @@ class _CharacterCard extends StatelessWidget {
 }
 
 class _SpeechBubble extends StatelessWidget {
-  const _SpeechBubble({required this.newWord, required this.hint});
+  const _SpeechBubble({required this.newWord, required this.hint, required this.onSpeak});
 
   final String newWord;
   final String hint;
+  final VoidCallback onSpeak;
 
   @override
   Widget build(BuildContext context) {
@@ -551,13 +672,16 @@ class _SpeechBubble extends StatelessWidget {
             borderRadius: BorderRadius.circular(20),
             border: Border.all(color: Colors.white10),
           ),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const Icon(Icons.volume_up, color: Color(0xFF4AC3FF)),
-              const SizedBox(width: 10),
-              Text(newWord, style: const TextStyle(fontSize: 18)),
-            ],
+          child: InkWell(
+            onTap: onSpeak,
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Icon(Icons.volume_up, color: Color(0xFF4AC3FF)),
+                const SizedBox(width: 10),
+                Text(newWord, style: const TextStyle(fontSize: 18)),
+              ],
+            ),
           ),
         ),
         const SizedBox(height: 12),

@@ -10,7 +10,8 @@ plugins {
 
 android {
     namespace = "com.example.kecap"
-    compileSdk = flutter.compileSdkVersion
+    // Pin to 36 to satisfy flutter_tts requirement
+    compileSdk = 36
     ndkVersion = "27.0.12077973"
 
     compileOptions {
@@ -27,7 +28,8 @@ android {
         applicationId = "com.example.kecap"
         // You can update the following values to match your application needs.
         // For more information, see: https://flutter.dev/to/review-gradle-config.
-        minSdk = maxOf(flutter.minSdkVersion, 23)
+        // flutter_tts requires minSdk 24
+        minSdk = maxOf(flutter.minSdkVersion, 24)
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
         versionName = flutter.versionName

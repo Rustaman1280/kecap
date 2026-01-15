@@ -40,6 +40,8 @@ dependencies:
   google_sign_in: ^6.2.1
   google_fonts: ^6.2.1
   google_generative_ai: ^0.4.3
+  flutter_tts: ^4.0.2
+  audioplayers: ^6.1.0
 
 dev_dependencies:
   flutter_test:
@@ -68,6 +70,7 @@ flutter:
     - assets/data/course_manifest.json
     - assets/data/levels/
     - assets/images/
+    - assets/audio/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

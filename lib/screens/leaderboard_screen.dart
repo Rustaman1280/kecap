@@ -27,6 +27,8 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final double hPad = _horizontalPadding(context);
+    const double maxWidth = 900;
     return Scaffold(
       backgroundColor: const Color(0xFF050E16),
       bottomNavigationBar: AppBottomNav(
@@ -34,14 +36,19 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
         onTap: _handleBottomNavTap,
       ),
       body: SafeArea(
-        child: ListView(
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
-          children: [
-            _LeaderboardHeader(user: widget.user),
-            const SizedBox(height: 20),
-            _LeaderboardSection(stream: _leaderboardStream, currentUid: widget.user.uid),
-            const SizedBox(height: 32),
-          ],
+        child: Center(
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: maxWidth),
+            child: ListView(
+              padding: EdgeInsets.symmetric(horizontal: hPad, vertical: 16),
+              children: [
+                _LeaderboardHeader(user: widget.user),
+                const SizedBox(height: 20),
+                _LeaderboardSection(stream: _leaderboardStream, currentUid: widget.user.uid),
+                const SizedBox(height: 32),
+              ],
+            ),
+          ),
         ),
       ),
     );
@@ -78,6 +85,15 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
         reverseTransitionDuration: Duration.zero,
       ),
     );
+  }
+
+  double _horizontalPadding(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
+    if (width < 360) return 12;
+    if (width < 480) return 14;
+    if (width < 720) return 16;
+    if (width < 1080) return 18;
+    return 20;
   }
 }
 

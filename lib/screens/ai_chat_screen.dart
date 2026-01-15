@@ -37,6 +37,9 @@ class _AiChatScreenState extends State<AiChatScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final double hPad = _horizontalPadding(context);
+    const double maxWidth = 720;
+
     return Scaffold(
       backgroundColor: const Color(0xFF050E16),
       bottomNavigationBar: AppBottomNav(
@@ -44,54 +47,65 @@ class _AiChatScreenState extends State<AiChatScreen> {
         onTap: _handleBottomNavTap,
       ),
       body: SafeArea(
-        child: Column(
-          children: [
-            _HeroHeader(user: widget.user),
-            const SizedBox(height: 12),
-            Expanded(
-              child: Container(
-                margin: const EdgeInsets.symmetric(horizontal: 16),
-                padding: const EdgeInsets.all(16),
-                decoration: BoxDecoration(
-                  color: const Color(0xFF0B111A),
-                  borderRadius: BorderRadius.circular(32),
-                  border: Border.all(color: Colors.white12),
+        child: Center(
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: maxWidth),
+            child: Column(
+              children: [
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: hPad),
+                  child: _HeroHeader(user: widget.user),
                 ),
-                child: Column(
-                  children: [
-                    Expanded(
-                      child: ListView.builder(
-                        reverse: true,
-                        itemCount: _messages.length,
-                        itemBuilder: (context, index) {
-                          final msg = _messages[_messages.length - 1 - index];
-                          return _ChatBubble(message: msg);
-                        },
-                      ),
+                const SizedBox(height: 12),
+                Expanded(
+                  child: Container(
+                    margin: EdgeInsets.symmetric(horizontal: hPad),
+                    padding: EdgeInsets.all(hPad),
+                    decoration: BoxDecoration(
+                      color: const Color(0xFF0B111A),
+                      borderRadius: BorderRadius.circular(32),
+                      border: Border.all(color: Colors.white12),
                     ),
-                    if (_error != null)
-                      Padding(
-                        padding: const EdgeInsets.only(top: 8),
-                        child: Text(
-                          _error!,
-                          style: const TextStyle(color: Colors.redAccent, fontSize: 12),
+                    child: Column(
+                      children: [
+                        Expanded(
+                          child: ListView.builder(
+                            reverse: true,
+                            itemCount: _messages.length,
+                            itemBuilder: (context, index) {
+                              final msg = _messages[_messages.length - 1 - index];
+                              return _ChatBubble(message: msg);
+                            },
+                          ),
                         ),
-                      ),
-                    const SizedBox(height: 12),
-                    _Composer(
-                      controller: _controller,
-                      focusNode: _focusNode,
-                      sending: _sending,
-                      onSend: _handleSend,
+                        if (_error != null)
+                          Padding(
+                            padding: const EdgeInsets.only(top: 8),
+                            child: Text(
+                              _error!,
+                              style: const TextStyle(color: Colors.redAccent, fontSize: 12),
+                            ),
+                          ),
+                        const SizedBox(height: 12),
+                        _Composer(
+                          controller: _controller,
+                          focusNode: _focusNode,
+                          sending: _sending,
+                          onSend: _handleSend,
+                        ),
+                      ],
                     ),
-                  ],
+                  ),
                 ),
-              ),
+                const SizedBox(height: 12),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: hPad),
+                  child: _SuggestionChips(onTap: _useSuggestion),
+                ),
+                const SizedBox(height: 12),
+              ],
             ),
-            const SizedBox(height: 12),
-            _SuggestionChips(onTap: _useSuggestion),
-            const SizedBox(height: 12),
-          ],
+          ),
         ),
       ),
     );
@@ -168,6 +182,14 @@ class _AiChatScreenState extends State<AiChatScreen> {
       ),
     );
   }
+
+  double _horizontalPadding(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
+    if (width < 360) return 10;
+    if (width < 480) return 12;
+    if (width < 720) return 16;
+    return 20;
+  }
 }
 
 class _HeroHeader extends StatelessWidget {
@@ -178,48 +200,45 @@ class _HeroHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final photo = user.photoURL;
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(16, 12, 16, 0),
-      child: Container(
-        padding: const EdgeInsets.all(20),
-        decoration: BoxDecoration(
-          gradient: const LinearGradient(
-            colors: [Color(0xFF1D2E43), Color(0xFF0B111A)],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
+    return Container(
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        gradient: const LinearGradient(
+          colors: [Color(0xFF1D2E43), Color(0xFF0B111A)],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
+        borderRadius: BorderRadius.circular(32),
+        border: Border.all(color: Colors.white10),
+      ),
+      child: Row(
+        children: [
+          CircleAvatar(
+            radius: 28,
+            backgroundColor: const Color(0xFF152032),
+            backgroundImage: photo != null && photo.isNotEmpty ? NetworkImage(photo) : null,
+            child: photo == null || photo.isEmpty
+                ? Text(
+                    (user.displayName?.isNotEmpty ?? false)
+                        ? user.displayName!.characters.first.toUpperCase()
+                        : 'K',
+                    style: const TextStyle(fontWeight: FontWeight.bold),
+                  )
+                : null,
           ),
-          borderRadius: BorderRadius.circular(32),
-          border: Border.all(color: Colors.white10),
-        ),
-        child: Row(
-          children: [
-            CircleAvatar(
-              radius: 28,
-              backgroundColor: const Color(0xFF152032),
-              backgroundImage: photo != null && photo.isNotEmpty ? NetworkImage(photo) : null,
-              child: photo == null || photo.isEmpty
-                  ? Text(
-                      (user.displayName?.isNotEmpty ?? false)
-                          ? user.displayName!.characters.first.toUpperCase()
-                          : 'K',
-                      style: const TextStyle(fontWeight: FontWeight.bold),
-                    )
-                  : null,
+          const SizedBox(width: 14),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: const [
+                Text('Gemini Chat', style: TextStyle(fontSize: 22, fontWeight: FontWeight.w700)),
+                SizedBox(height: 4),
+                Text('Belajar bahasa Sunda bareng AI, kapan saja.', style: TextStyle(color: Colors.white70)),
+              ],
             ),
-            const SizedBox(width: 14),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: const [
-                  Text('Gemini Chat', style: TextStyle(fontSize: 22, fontWeight: FontWeight.w700)),
-                  SizedBox(height: 4),
-                  Text('Belajar bahasa Sunda bareng AI, kapan saja.', style: TextStyle(color: Colors.white70)),
-                ],
-              ),
-            ),
-            const Icon(Icons.bolt, color: Color(0xFFFFB341)),
-          ],
-        ),
+          ),
+          const Icon(Icons.bolt, color: Color(0xFFFFB341)),
+        ],
       ),
     );
   }
